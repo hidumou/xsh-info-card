@@ -45,6 +45,9 @@ playwright install chromium
 # 按 ISO 周数自动轮换风格，渲染 5 张 PNG 到 output/YYYY-MM-DD/<slug>/
 python3 tools/scripts/build_cards.py topics/topic_xxx.json
 
+# 随机挑一个风格（在写 info.json 前完成，计数不会错乱）
+python3 tools/scripts/build_cards.py topics/topic_xxx.json --style random
+
 # 指定风格，输出到自定义目录
 python3 tools/scripts/build_cards.py topics/topic_xxx.json --style research --output output/custom/
 
@@ -64,7 +67,7 @@ python3 tools/scripts/build_cards.py --list-styles topics/topic_xxx.json
 | bloomberg | 彭博终端风 | JetBrains Mono，CRT 扫描线，磷光发光，ASCII 盒线 |
 | minimal | 财报极简 | Fraunces opsz 极变，熔金重音，0.5px 发丝线，6px 节律 |
 
-自动轮换规则：ISO 周数 mod 4 → research / wsj / bloomberg / minimal。用 `--style <key>` 显式指定则不轮换。
+自动轮换规则：ISO 周数 mod 4 → research / wsj / bloomberg / minimal。用 `--style <key>` 显式指定则不轮换；`--style random` 则随机挑一个（挑选发生在读写 `info.json` 之前，保证计数不串）。
 
 ## issue_no 机制
 

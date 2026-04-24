@@ -34,6 +34,7 @@ from __future__ import annotations
 import argparse
 import base64
 import json
+import random as _random
 import re
 import sys
 import subprocess
@@ -101,12 +102,15 @@ def pick_style(arg: str | None, today: dt_date | None = None) -> str:
     """
     解析风格：
       - 传入合法名 → 用它
+      - 传 'random' → 从 STYLES 中随机挑一个（在写 info.json 前完成，保证计数正确）
       - 传 'auto' 或 None → 按 ISO 周数 mod N 轮换
       - 其它 → 报错
     """
+    if arg == "random":
+        return _random.choice(STYLES)
     if arg and arg != "auto":
         if arg not in STYLES:
-            raise SystemExit(f"[err] unknown style '{arg}'. available: {', '.join(STYLES)}")
+            raise SystemExit(f"[err] unknown style '{arg}'. available: {', '.join(STYLES)}, random, auto")
         return arg
     today = today or dt_date.today()
     week = today.isocalendar().week
@@ -276,7 +280,7 @@ def _png_export(html_pairs: list[tuple[str, Path]], png_dir: Path) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("topic", help="topic JSON 文件路径")
-    ap.add_argument("--style", default="auto", help="风格名 或 'auto'（按周轮换）")
+    ap.add_argument("--style", default="auto", help="风格名 / 'auto'（按周轮换）/ 'random'（随机）")
     ap.add_argument("--output", "-o", help="输出目录（默认 output/YYYY-MM-DD/<slug>/）")
     ap.add_argument("--keep-html", action="store_true", help="保留中间产物 HTML（默认只输出 PNG）")
     ap.add_argument("--list-styles", action="store_true", help="列出所有风格")
