@@ -1,0 +1,87 @@
+{
+  "slug": "AI-基础设施军备赛",
+  "meta": {
+    "issue_no": "020",
+    "date": "2026.04.24",
+    "topic_tag": "AI 产业 · INFRASTRUCTURE × SEMIS",
+    "rating": "★★ 必读 · MUST READ",
+    "kicker_default": "DAILY BRIEF · 今日信号",
+    "focus_name": "顶级机构研报精选"
+  },
+  "cover": {
+    "title": "AI 从「{em}模型秀{/em}」<br>进入<br>「{em}基础设施军备赛{/em}」",
+    "dek": "一天之内：英特尔押 1 万亿美元市场、DeepSeek V4 把 Agent + 百万字上下文变为新标杆、头部公募抛旧迎新、代工端 30% 涨价——五条信号全对齐。",
+    "source_name": "英特尔 Q1 财报电话会 · 陈立武",
+    "source_meta": "本期信号来自 <strong>SupSub · 顶级机构研报精选</strong> 关注点的交叉聚合",
+    "kpi": [
+      { "key": "SEMI TAM", "value": "$1 万亿" },
+      { "key": "DSV4 上下文", "value": "1M Token" },
+      { "key": "代工涨价", "value": "+30%", "tone": "up" }
+    ]
+  },
+  "abstract": {
+    "title": "AI 从「模型秀」进入「基础设施军备赛」",
+    "byline": "五条同日信号交叉佐证 · 2026.04.24",
+    "abstract": "2026 年 4 月 24 日，同一天内出现 5 条相互呼应的结构性信号：<ul><li>英特尔 CEO 陈立武在 Q1 财报电话会明确半导体 TAM 逼近 <strong>1 万亿美元</strong>，押注 x86 CPU + 先进封装 + 制造网络三件套；</li><li>DeepSeek V4 预览版开源，<strong>百万字上下文</strong> + Agent 能力成为新标杆；</li><li>国产 AI 芯片板块（昇腾 950、寒武纪、海光）同步拉升；</li><li>代工设计端进入涨价潮，最高 <strong>+30%</strong>；</li><li>汇丰将 SMR 核电公司 Oklo 目标价上调至 <strong>$96</strong>，头部公募从「便宜科技」抱团转向 AI 新贵。</li></ul>",
+    "editor_note": "这五条不是独立新闻，是同一个结构性转折的五个佐证：{em}AI 的叙事主战场正从「模型能不能做」转向「基础设施够不够」{/em}。落到两类读者：<ol><li>对 A/H 股投资人 —— 轻「模型叙事溢价」，重「基础设施供给瓶颈」（算力、电力、先进封装、代工）；</li><li>对创业者 —— 推理成本还要再平坦化 12-18 个月，Agent 类应用的真正黄金窗口刚刚打开。</li></ol>"
+  },
+  "takeaways": {
+    "title": "一天 5 条信号，指向同一个{em}结构性转折{/em}",
+    "items": [
+      {
+        "title": "硬件主线：CPU 重归 AI 核心",
+        "body": "英特尔陈立武押注 <strong>x86 + 先进封装 + 制造网络</strong> 三件套；在财报电话会明确把半导体 TAM 锚定 1 万亿美元。CPU 不是过渡品，是基础设施。"
+      },
+      {
+        "title": "模型侧：百万字 + Agent 成为新标杆",
+        "body": "DeepSeek V4 预览开源，支持 <strong>1M 上下文</strong> + Agent 能力；国产 AI 芯片（昇腾 950、寒武纪、海光）同步拉升，「国产芯片 + 国产模型」闭环开始闭合。"
+      },
+      {
+        "title": "资金切换：从便宜科技到 AI 新贵",
+        "body": "头部公募撤离「低估值科技」，抱团智谱、MiniMax 等 AI 新贵——是<strong>估值叙事切换</strong>的信号，不是短线情绪。"
+      },
+      {
+        "title": "瓶颈定价：代工涨价 + 核电受捧",
+        "body": "代工设计端最高 <strong>+30%</strong> 涨价；汇丰 SMR 核电公司 Oklo 目标价 <strong>$96</strong>——供给瓶颈（算力、电力）首次被机构严肃定价。"
+      }
+    ]
+  },
+  "quote": {
+    "text": "半导体行业整体潜在市场规模已<br>{em}逼近 1 万亿美元{/em}。",
+    "cite": "陈立武 · 英特尔 CEO · 2026 Q1 财报电话会",
+    "context": "—— 一线 CEO 的硬数字在 AI 叙事里少见。「万亿」这个锚一旦定下来，基本给 2026 下半场的 capex 预期和估值上限定了调。"
+  },
+  "further": {
+    "title": "把今天的信号连成一张地图",
+    "groups": [
+      {
+        "title": "硬件主线",
+        "items": [
+          { "text": "陈立武：CPU 重归 AI 核心地位", "src": "· 押注不是过渡" },
+          { "text": "英特尔 CEO：半导体 TAM 已逼近 1 万亿美元", "src": "· 数字锚定" }
+        ]
+      },
+      {
+        "title": "模型 & 国产闭环",
+        "items": [
+          { "text": "DeepSeek V4 双版本正式上线", "src": "· 百万字 + Agent 技术解读" },
+          { "text": "V4 开源，国产 AI 芯片股集体拉升", "src": "· 市场即时反应" }
+        ]
+      },
+      {
+        "title": "资金与叙事切换",
+        "items": [
+          { "text": "撤离便宜科技，头部公募抱团 AI 新贵", "src": "· 估值切换信号" },
+          { "text": "长石资本 汪恭彬：Token 经济学是 AI 产业重构的关键词", "src": "· 框架性分析" }
+        ]
+      },
+      {
+        "title": "瓶颈视角 · 供给侧压力",
+        "items": [
+          { "text": "半导体涨价潮蔓延至代工设计端", "src": "· 最高 +30%" },
+          { "text": "Oklo 汇丰目标价 $96：SMR 核电首次被严肃定价", "src": "· 电力瓶颈上桌" }
+        ]
+      }
+    ]
+  }
+}

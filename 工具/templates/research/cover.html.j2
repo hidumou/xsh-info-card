@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ data.title | em | striptags }} · 封面</title>
+<style>
+{% include 'research/_base.css' %}
+
+.content { padding: 28px 42px 22px; }
+
+.vol-stamp {
+  font-family: var(--font-sc);
+  font-size: 10px; letter-spacing: .3em;
+  color: var(--ink-3); text-transform: uppercase;
+  margin-bottom: 18px;
+  display: flex; justify-content: space-between;
+}
+.vol-stamp .roman {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--oxblood);
+  letter-spacing: .08em;
+  font-variation-settings: "opsz" 144, "wght" 500;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 1.12;
+  color: var(--navy);
+  margin-bottom: 20px;
+  letter-spacing: -0.015em;
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+}
+h1 em {
+  font-style: italic;
+  color: var(--oxblood);
+  font-weight: 500;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144;
+}
+
+.dek {
+  font-family: var(--font-cn);
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: var(--ink-2);
+  padding: 14px 0 14px 22px;
+  margin-bottom: 16px;
+  border-left: 2px solid var(--gold);
+  font-weight: 400;
+}
+.dek strong { color: var(--navy); font-weight: 700; }
+
+.ornament-rule {
+  display: flex; align-items: center; gap: 14px;
+  margin: 8px 0 14px;
+}
+.ornament-rule::before, .ornament-rule::after {
+  content: ""; flex: 1; height: 1px; background: var(--gold);
+}
+.ornament-rule span {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 18px; color: var(--gold);
+}
+
+.source-box {
+  background: var(--paper-2);
+  border-top: 2px solid var(--navy);
+  border-bottom: 1px solid var(--rule);
+  padding: 16px 22px 18px;
+  margin-top: auto;
+  position: relative;
+}
+.source-box::before {
+  content: "❧"; position: absolute;
+  top: -13px; left: 22px;
+  font-family: var(--font-display);
+  font-size: 18px; color: var(--gold);
+  background: var(--paper-2); padding: 0 8px;
+}
+.source-box .label {
+  font-family: var(--font-sc);
+  font-size: 10.5px; letter-spacing: .32em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  margin-bottom: 8px; font-weight: 700;
+}
+.source-box .src {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700;
+  color: var(--navy); margin-bottom: 6px;
+  font-variation-settings: "opsz" 144;
+  letter-spacing: -.005em;
+}
+.source-box .meta {
+  font-family: var(--font-cn);
+  font-size: 12.5px; color: var(--ink-2);
+  line-height: 1.65;
+}
+.source-box .meta strong { color: var(--navy); font-weight: 700; }
+
+.kpi-strip {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat({{ data.kpi | length if data.kpi else 3 }}, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+.kpi-strip .kpi {
+  padding: 12px 10px;
+  text-align: center;
+  border-right: 1px solid var(--rule);
+  position: relative;
+}
+.kpi-strip .kpi:last-child { border-right: none; }
+.kpi-strip .kpi .k {
+  font-family: var(--font-sc);
+  font-size: 9.5px; letter-spacing: .26em;
+  color: var(--ink-3);
+  text-transform: uppercase; font-weight: 700;
+  margin-bottom: 6px;
+}
+.kpi-strip .kpi .v {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 700;
+  color: var(--navy);
+  font-variation-settings: "opsz" 144;
+  letter-spacing: -.01em;
+  font-feature-settings: "lnum" 1, "ss01" 1;
+}
+.kpi-strip .kpi .v.up { color: var(--up); }
+.kpi-strip .kpi .v.down { color: var(--down); }
+</style>
+</head>
+<body>
+<div class="card">
+{% with meta_label='Research Note', sub_left=meta.topic_tag, sub_right=meta.rating or '★ 推荐阅读 · Read', show_date=true %}
+{% include 'research/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="vol-stamp">
+      <span>{{ meta.kicker_default or 'Daily Brief · 今日信号' }}</span>
+      <span class="roman">Vol. {{ meta.issue_no }}</span>
+    </div>
+    <h1>{{ data.title | em }}</h1>
+    <div class="dek">{{ data.dek }}</div>
+
+    <div class="ornament-rule"><span>❦</span></div>
+
+    <div class="source-box">
+      <div class="label">Source · 信号来源</div>
+      <div class="src">{{ data.source_name }}</div>
+      {% if data.source_meta %}<div class="meta">{{ data.source_meta }}</div>{% endif %}
+    </div>
+    {% if data.kpi %}
+    <div class="kpi-strip">
+      {% for k in data.kpi %}
+      <div class="kpi"><div class="k">{{ k.key }}</div><div class="v{% if k.tone %} {{ k.tone }}{% endif %}">{{ k.value }}</div></div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+{% with disc='Save your attention for what matters.' %}
+{% include 'research/_footer.html.j2' %}
+{% endwith %}
+</div>
+</body>
+</html>

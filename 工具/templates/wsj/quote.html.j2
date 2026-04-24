@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>金句 · {{ data.cite }}</title>
+<style>
+{% include 'wsj/_base.css' %}
+.content { padding: 26px 56px 18px; display: flex; flex-direction: column; }
+
+.kicker-editorial {
+  font-family: var(--font-condensed);
+  font-weight: 500;
+  font-size: 10.5px;
+  letter-spacing: .5em;
+  color: var(--red-ink);
+  text-transform: uppercase;
+  text-align: center;
+  padding: 6px 0;
+  margin-bottom: 18px;
+}
+.kicker-editorial::before { content: "❖  "; }
+.kicker-editorial::after  { content: "  ❖"; }
+
+/* 双横线框 + 左侧巨型引号 + 右下 attribution */
+.pull {
+  padding: 28px 36px 32px;
+  border-top: 3px double var(--ink);
+  border-bottom: 3px double var(--ink);
+  margin: 18px 0 18px;
+  position: relative;
+}
+.mark-top {
+  position: absolute;
+  top: -6px;
+  left: 14px;
+  font-family: var(--font-serif-alt);
+  font-style: italic;
+  font-size: 140px;
+  line-height: 1;
+  color: var(--red-ink);
+  opacity: 0.9;
+}
+
+blockquote {
+  font-family: var(--font-serif-alt);
+  font-size: 44px;
+  line-height: 1.32;
+  font-weight: 400;
+  font-style: italic;
+  text-align: left;
+  color: var(--ink);
+  margin: 10px 0 0;
+  padding-left: 42px;
+  letter-spacing: -0.005em;
+}
+blockquote em {
+  font-style: italic;
+  color: var(--red-ink);
+  background: none;
+  padding: 0;
+  font-weight: 400;
+}
+
+/* Attribution —— 右下小大写 + 横杠 */
+cite {
+  display: block;
+  margin-top: 28px;
+  padding-top: 10px;
+  border-top: 1px solid var(--ink);
+  font-family: var(--font-condensed);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: .35em;
+  color: var(--red-ink);
+  text-transform: uppercase;
+  text-align: right;
+}
+cite::before { content: "— "; }
+cite::after  { content: " —"; }
+
+.context {
+  margin: 24px auto 0;
+  max-width: 560px;
+  font-family: var(--font-serif-alt);
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.8;
+  text-align: center;
+  font-style: italic;
+  padding: 12px 0 0;
+  position: relative;
+}
+.context::before {
+  content: "❖";
+  display: block;
+  color: var(--red-ink);
+  font-size: 14px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="card">
+{% with meta_label='EDITORIAL', sub_left='EDITORIAL · 社论摘抄', sub_right='★ SHARE', show_date=false %}
+{% include 'wsj/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="kicker-editorial">PULL QUOTE &middot; 本期金句</div>
+    <div class="pull">
+      <div class="mark-top">&ldquo;</div>
+      <blockquote>{{ data.text | em }}</blockquote>
+      <cite>{{ data.cite }}</cite>
+    </div>
+    {% if data.context %}<div class="context">{{ data.context }}</div>{% endif %}
+  </div>
+
+{% include 'wsj/_footer.html.j2' %}
+</div>
+</body>
+</html>

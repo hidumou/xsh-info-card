@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ data.title | em | striptags | default('摘要') }} · 摘要</title>
+<style>
+{% include 'bloomberg/_base.css' %}
+.content { padding: 14px 18px; }
+.head-line {
+  display: flex; justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--amber);
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px rgba(255,138,0,.4);
+}
+.head-line .r { color: var(--cyan); letter-spacing: 1px; font-size: 10px; text-shadow: 0 0 4px rgba(0,229,255,.4); }
+
+h2 {
+  font-size: 22px; font-weight: 900;
+  line-height: 1.3; color: var(--fg);
+  margin-bottom: 4px; font-family: var(--font-sans);
+  text-shadow: -0.5px 0 0 rgba(255,0,64,.4), 0.5px 0 0 rgba(0,229,255,.4);
+}
+h2 em {
+  color: #000; background: var(--amber);
+  padding: 0 4px;
+  box-shadow: 0 0 12px rgba(255,138,0,.35);
+  text-shadow: none;
+}
+.src {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--cyan);
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 4px rgba(0,229,255,.4);
+}
+.src::before { content: "// source: "; color: var(--amber); text-shadow: 0 0 4px rgba(255,138,0,.4); }
+
+/* Code-block panel with ASCII title cap */
+.block {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  margin-bottom: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.block .head {
+  display: flex; justify-content: space-between;
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--line);
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 2px;
+  color: var(--amber);
+  text-transform: uppercase;
+  text-shadow: 0 0 4px rgba(255,138,0,.4);
+}
+.block .head::before {
+  content: "── ";
+  color: var(--amber-dim);
+  letter-spacing: 0;
+}
+.block .head .n { color: var(--dim); text-shadow: none; letter-spacing: 1.5px; }
+.block.alt .head { color: var(--cyan); text-shadow: 0 0 4px rgba(0,229,255,.4); }
+
+.block .body {
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 8px;
+}
+.block .body .ln {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: #3a4252;
+  text-align: right;
+  padding-top: 4px;
+  border-right: 1px solid var(--line-2);
+  padding-right: 6px;
+  line-height: 1.72;
+  white-space: pre;
+}
+.block .body .txt {
+  font-size: 13px; line-height: 1.72;
+  color: var(--fg); font-family: var(--font-sans);
+  position: relative;
+}
+.block .body .txt::before {
+  content: "> ";
+  color: var(--phosphor);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-shadow: 0 0 5px rgba(0,255,157,.5);
+}
+.block .body .txt ul,
+.block .body .txt ol { margin: 4px 0 0 0; }
+.block .body .txt li { font-size: 12px; line-height: 1.65; }
+
+.block.alt { border-left: 2px solid var(--cyan); }
+.block { border-left: 2px solid var(--amber); }
+
+.foot-status {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--dim);
+  letter-spacing: 1.5px;
+  display: flex;
+  justify-content: space-between;
+}
+.foot-status .ok { color: var(--phosphor); text-shadow: 0 0 4px rgba(0,255,157,.5); }
+.foot-status .amb { color: var(--amber); text-shadow: 0 0 4px rgba(255,138,0,.4); }
+</style>
+</head>
+<body>
+<div class="card">
+{% with meta_label='FEAT', sub_left='ABSTRACT', sub_right='CORE READ', show_date=true %}
+{% include 'bloomberg/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="head-line">
+      <span>&gt; LOAD abstract.md --decode utf-8</span>
+      <span class="r">[bytes: ~{{ data.abstract | length // 4 * 4 }}]</span>
+    </div>
+    <h2>{{ (data.title | em) if data.title else '' }}</h2>
+    <div class="src">{{ data.byline }}</div>
+
+    <div class="block ascii-box">
+      <span class="ab-bl">└</span><span class="ab-br">┘</span>
+      <div class="head"><span>&gt;&gt; ABSTRACT · 摘要</span><span class="n">[sec.01] rev.A</span></div>
+      <div class="body">
+        <div class="ln">001
+002
+003
+004
+005</div>
+        <div class="txt">{{ data.abstract | em }}</div>
+      </div>
+    </div>
+
+    <div class="block alt ascii-box">
+      <span class="ab-bl">└</span><span class="ab-br">┘</span>
+      <div class="head"><span>&gt;&gt; EDITOR · 编者按</span><span class="n">[sec.02] rev.A</span></div>
+      <div class="body">
+        <div class="ln">006
+007
+008
+009</div>
+        <div class="txt">{{ data.editor_note | em }}</div>
+      </div>
+    </div>
+
+    <div class="foot-status">
+      <span><span class="ok">&#9679; DECODED</span> &middot; checksum=pass</span>
+      <span class="amb">end of file &middot; EOF</span>
+    </div>
+  </div>
+
+{% include 'bloomberg/_footer.html.j2' %}
+</div>
+</body>
+</html>

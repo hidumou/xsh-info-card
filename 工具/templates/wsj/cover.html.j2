@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ data.title | em | striptags }} · 封面</title>
+<style>
+{% include 'wsj/_base.css' %}
+.content { padding: 18px 40px 14px; }
+
+/* Market strip：3 格 红/黑报纸配色 */
+.market-strip {
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 0;
+  display: grid;
+  grid-template-columns: repeat({{ data.kpi | length if data.kpi else 3 }}, 1fr);
+  gap: 0;
+  margin-bottom: 14px;
+}
+.market-strip .dp {
+  text-align: center;
+  border-right: 1px solid var(--ink);
+  padding: 2px 6px;
+}
+.market-strip .dp:last-child { border-right: none; }
+.market-strip .dp .k {
+  font-family: var(--font-condensed);
+  font-weight: 500;
+  font-size: 9.5px;
+  letter-spacing: .3em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.market-strip .dp .v {
+  font-family: var(--font-masthead);
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.market-strip .dp .v.up { color: var(--green-ink); }
+.market-strip .dp .v.down { color: var(--red-ink); }
+
+/* Head kicker —— 点状装饰，不用长横 */
+.head-kicker {
+  font-family: var(--font-condensed);
+  font-weight: 500;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: .4em;
+  color: var(--red-ink);
+  text-transform: uppercase;
+  margin: 6px 0 8px;
+}
+.head-kicker::before { content: "❖  "; color: var(--red-ink); }
+.head-kicker::after  { content: "  ❖"; color: var(--red-ink); }
+
+/* 居中大衬线标题 —— Playfair Display 900 */
+h1 {
+  font-family: var(--font-masthead);
+  font-size: 50px;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 4px 0 10px;
+  color: var(--ink);
+  text-align: center;
+}
+h1 em {
+  font-style: italic;
+  color: var(--red-ink);
+  font-weight: 900;
+}
+
+/* Byline —— 小大写横杠 */
+.byline-row {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  font-family: var(--font-condensed);
+  font-weight: 500;
+  font-size: 10.5px;
+  letter-spacing: .3em;
+  color: var(--ink-2);
+  text-transform: uppercase;
+  padding: 6px 0 8px;
+  margin-bottom: 10px;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+.byline-row::before { content: "—"; color: var(--ink); }
+.byline-row::after  { content: "—"; color: var(--ink); }
+
+/* Lead + IM Fell drop cap */
+.lead {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  line-height: 1.82;
+  color: var(--ink-2);
+  padding: 2px 4px 0;
+}
+.lead p {
+  margin-bottom: 6px;
+  text-align: justify;
+  hyphens: auto;
+}
+.lead p:first-child::first-letter {
+  font-family: var(--font-serif-alt);
+  font-size: 76px;
+  font-weight: 400;
+  font-style: italic;
+  float: left;
+  line-height: 0.85;
+  padding: 8px 10px 0 0;
+  color: var(--red-ink);
+}
+
+/* Source strip —— 顶部点装饰而非粗双线 */
+.source-strip {
+  margin-top: auto;
+  padding: 10px 14px 4px;
+  border-top: 1px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  position: relative;
+}
+.source-strip::before {
+  content: "❖";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--paper);
+  padding: 0 8px;
+  color: var(--red-ink);
+  font-size: 14px;
+}
+.source-strip .left {
+  font-family: var(--font-condensed);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: .35em;
+  color: var(--red-ink);
+  text-transform: uppercase;
+}
+.source-strip .src {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 2px;
+}
+.source-strip .m {
+  font-family: var(--font-serif-alt);
+  font-style: italic;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  text-align: right;
+  max-width: 300px;
+  line-height: 1.55;
+}
+</style>
+</head>
+<body>
+<div class="card">
+{% with meta_label='VOL', sub_left=meta.topic_tag, sub_right=(meta.rating or '★ FEATURED'), show_date=true %}
+{% include 'wsj/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    {% if data.kpi %}
+    <div class="market-strip">
+      {% for k in data.kpi %}
+      <div class="dp"><div class="k">{{ k.key }}</div><div class="v{% if k.tone %} {{ k.tone }}{% endif %}">{{ k.value }}</div></div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="head-kicker">TODAY&rsquo;S TOP SIGNAL &middot; 今日头条</div>
+    <h1>{{ data.title | em }}</h1>
+
+    <div class="byline-row">
+      <span>By SupSub Editorial</span>
+      <span>{{ meta.date }}</span>
+      <span>{{ meta.topic_tag }}</span>
+    </div>
+
+    <div class="lead">
+      <p>{{ data.dek }}</p>
+    </div>
+
+    <div class="source-strip">
+      <div>
+        <div class="left">SOURCE</div>
+        <div class="src">{{ data.source_name }}</div>
+      </div>
+      {% if data.source_meta %}<div class="m">{{ data.source_meta }}</div>{% endif %}
+    </div>
+  </div>
+
+{% with disc='&ldquo;把注意力留给有价值的内容&rdquo;' %}
+{% include 'wsj/_footer.html.j2' %}
+{% endwith %}
+</div>
+</body>
+</html>

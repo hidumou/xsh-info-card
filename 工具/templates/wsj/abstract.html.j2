@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ data.title | em | striptags | default('摘要') }} · 摘要</title>
+<style>
+{% include 'wsj/_base.css' %}
+.content { padding: 18px 40px 14px; }
+
+.section-label-top {
+  text-align: center;
+  font-family: var(--font-condensed);
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: .4em;
+  color: var(--red-ink);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.section-label-top::before { content: "❖  "; }
+.section-label-top::after  { content: "  ❖"; }
+
+h2 {
+  font-family: var(--font-masthead);
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 6px;
+  text-align: center;
+  letter-spacing: -0.015em;
+}
+h2 em { font-style: italic; color: var(--red-ink); }
+
+/* Byline dash */
+.byline {
+  font-family: var(--font-condensed);
+  font-weight: 500;
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: .3em;
+  color: var(--ink-2);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--ink);
+}
+.byline::before { content: "— "; }
+.byline::after  { content: " —"; }
+.byline strong { color: var(--red-ink); font-weight: 700; }
+
+/* 正文：单列纵向，IM Fell drop cap */
+.lead-body {
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+.lead-body p {
+  font-family: var(--font-serif);
+  font-size: 13.5px;
+  line-height: 1.78;
+  color: var(--ink-2);
+  text-indent: 1.5em;
+  margin-bottom: 6px;
+  text-align: justify;
+  hyphens: auto;
+}
+.lead-body p:first-child { text-indent: 0; }
+.lead-body p:first-child::first-letter {
+  font-family: var(--font-serif-alt);
+  font-size: 88px;
+  font-weight: 400;
+  font-style: italic;
+  float: left;
+  line-height: 0.82;
+  padding: 6px 10px 0 0;
+  color: var(--red-ink);
+}
+.lead-body ul, .lead-body ol { margin: 4px 0 4px 14px; }
+.lead-body li {
+  font-size: 12.5px;
+  line-height: 1.68;
+  margin-bottom: 3px;
+  text-indent: 0;
+  text-align: justify;
+}
+
+/* Editor's note —— 带左侧 red-ink 粗竖线的 callout */
+.editor-box {
+  margin-top: auto;
+  padding: 12px 16px 12px 20px;
+  background: var(--paper-2);
+  border-left: 4px solid var(--red-ink);
+  position: relative;
+}
+.editor-box::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  top: 0;
+  height: 1px;
+  background: var(--ink);
+}
+.editor-box::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--ink);
+}
+.editor-box .lbl {
+  font-family: var(--font-condensed);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: .4em;
+  color: var(--red-ink);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.editor-box p {
+  font-family: var(--font-serif-alt);
+  font-style: italic;
+  font-size: 12.5px;
+  line-height: 1.72;
+  color: var(--ink-2);
+  text-align: justify;
+  hyphens: auto;
+}
+.editor-box ol, .editor-box ul { margin: 4px 0 2px 20px; font-style: normal; }
+.editor-box li { font-size: 12.5px; font-style: normal; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="card">
+{% with meta_label='FEATURE', sub_left='摘要与编者按', sub_right='★★ CORE READ', show_date=true %}
+{% include 'wsj/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="section-label-top">FEATURE &middot; 特稿摘要</div>
+    <h2>{{ (data.title | em) if data.title else '' }}</h2>
+    <div class="byline">{{ data.byline }}</div>
+
+    <div class="lead-body">
+      <p>{{ data.abstract | em }}</p>
+    </div>
+
+    <div class="editor-box">
+      <div class="lbl">Editor&rsquo;s Note &middot; 编者按</div>
+      <p>{{ data.editor_note | em }}</p>
+    </div>
+  </div>
+
+{% include 'wsj/_footer.html.j2' %}
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+  <header class="supsub-header">
+    <div class="tiny-rule">
+      <span>{{ meta_label }} &nbsp;&middot;&nbsp; VOL.{{ meta.issue_no }}</span>
+      <span>EST. MMXXIV &nbsp;&middot;&nbsp; ALL RIGHTS RESERVED</span>
+    </div>
+    <div class="masthead">
+      <div class="logo"><img src="{{ logo_uri }}" width="46" height="32" alt="SupSub">The Sup&middot;Sub Daily</div>
+    </div>
+    <div class="dateline">
+      <span>{% if show_date %}{{ meta.date }}{% else %}SPECIAL EDITION{% endif %}</span>
+      <span class="center">&bull; FIVE PAGES &bull;</span>
+      <span>NO. {{ meta.issue_no }}</span>
+    </div>
+  </header>
+  <div class="sub-bar">
+    <span class="latecity">LATE CITY EDITION &middot; VOL.{{ meta.issue_no }} &middot; MORNING</span>
+    <span>{{ sub_left }}</span>
+    <span class="rating">{{ sub_right }}</span>
+  </div>

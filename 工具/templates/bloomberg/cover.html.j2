@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ data.title | em | striptags }} · 封面</title>
+<style>
+{% include 'bloomberg/_base.css' %}
+.content { padding: 14px 22px 14px; display: flex; flex-direction: column; }
+
+.prompt {
+  color: var(--phosphor); font-family: var(--font-mono);
+  font-size: 11px; margin-bottom: 10px; letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(0,255,157,.45);
+}
+.prompt .c { color: var(--cyan); text-shadow: 0 0 6px rgba(0,229,255,.45); }
+.prompt .a { color: var(--amber); text-shadow: 0 0 6px rgba(255,138,0,.45); }
+
+h1 {
+  font-size: 34px; font-weight: 900;
+  line-height: 1.22;
+  color: var(--fg);
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+  font-family: var(--font-sans);
+  text-shadow: -0.8px 0 0 rgba(255,0,64,.55), 0.8px 0 0 rgba(0,229,255,.55);
+}
+h1 em {
+  background: var(--amber); color: #000;
+  padding: 0 6px; font-style: normal;
+  text-shadow: none;
+  box-shadow: 0 0 14px rgba(255,138,0,.4);
+}
+.dek {
+  font-size: 12.5px; line-height: 1.75;
+  color: #c4ccd6;
+  border-left: 2px solid var(--amber);
+  padding: 4px 0 4px 12px;
+  margin-bottom: 14px;
+  font-family: var(--font-sans);
+}
+
+/* KPI horizontal status strip — 3 cells */
+.kpi-strip {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 14px;
+  position: relative;
+  box-shadow: inset 0 0 40px rgba(255,138,0,.04);
+}
+.kpi-strip::before {
+  content: "[ KPI · LIVE FEED ]";
+  position: absolute; top: -8px; left: 14px;
+  background: var(--bg); color: var(--amber);
+  font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 2.5px; padding: 0 8px;
+  text-shadow: 0 0 6px rgba(255,138,0,.5);
+}
+.kpi-strip .cell {
+  padding: 12px 14px 10px;
+  border-right: 1px solid var(--line);
+  border-left: 3px solid var(--amber);
+  position: relative;
+}
+.kpi-strip .cell:last-child { border-right: none; }
+.kpi-strip .cell.up { border-left-color: var(--phosphor); }
+.kpi-strip .cell.down { border-left-color: var(--red); }
+.kpi-strip .cell .idx {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--cyan);
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+  text-shadow: 0 0 4px rgba(0,229,255,.4);
+}
+.kpi-strip .cell .k {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.kpi-strip .cell .v {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--amber);
+  font-weight: 700;
+  line-height: 1.1;
+  text-shadow: 0 0 8px rgba(255,138,0,.5), 0 0 16px rgba(255,138,0,.2);
+}
+.kpi-strip .cell .v.up { color: var(--phosphor); text-shadow: 0 0 8px rgba(0,255,157,.5), 0 0 16px rgba(0,255,157,.2); }
+.kpi-strip .cell .v.down { color: var(--red); text-shadow: 0 0 8px rgba(255,61,71,.5); }
+
+/* Source ASCII box */
+.src-block {
+  padding: 12px 14px;
+  margin: 4px 0 12px;
+  position: relative;
+}
+.src-block .lbl {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 3px;
+  color: var(--amber);
+  margin-bottom: 5px;
+  text-shadow: 0 0 6px rgba(255,138,0,.4);
+}
+.src-block .lbl::before { content: ">> "; color: var(--cyan); text-shadow: 0 0 4px rgba(0,229,255,.4); }
+.src-block .src {
+  font-size: 14px; color: var(--fg);
+  font-weight: 700; font-family: var(--font-sans);
+}
+.src-block .m {
+  font-size: 11.5px; color: var(--dim);
+  margin-top: 4px; line-height: 1.55;
+  font-family: var(--font-sans);
+}
+
+/* Boot log */
+.log {
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--dim);
+  line-height: 1.8;
+  border-top: 1px dashed var(--line-2);
+  padding-top: 10px;
+  position: relative;
+}
+.log::before {
+  content: "$ tail -f /var/log/supsub.feed";
+  display: block;
+  font-size: 9px;
+  color: var(--amber-dim);
+  margin-bottom: 4px;
+  letter-spacing: 1.5px;
+}
+.log .t { color: var(--cyan); text-shadow: 0 0 4px rgba(0,229,255,.4); }
+.log .ok { color: var(--phosphor); text-shadow: 0 0 5px rgba(0,255,157,.5); }
+.log .warn { color: var(--amber); text-shadow: 0 0 5px rgba(255,138,0,.5); }
+.log .line { color: var(--fg); }
+</style>
+</head>
+<body>
+<div class="card">
+{% with meta_label='SIG', sub_left='DAILY BRIEF', sub_right=(meta.rating or 'READ'), show_date=true %}
+{% include 'bloomberg/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="prompt"><span class="c">supsub@term</span>:<span class="a">~</span>$ brief --load #{{ meta.issue_no }}<span class="caret">▌</span></div>
+    <h1>{{ data.title | em }}</h1>
+    <div class="dek">{{ data.dek }}</div>
+
+    {% if data.kpi %}
+    <div class="kpi-strip ascii-box">
+      <span class="ab-bl">└</span><span class="ab-br">┘</span>
+      {% for k in data.kpi %}
+      <div class="cell{% if k.tone %} {{ k.tone }}{% endif %}">
+        <div class="idx">&gt; {{ '%03d' % loop.index }}/{{ '%03d' % (data.kpi|length) }}</div>
+        <div class="k">{{ k.key }}</div>
+        <div class="v{% if k.tone %} {{ k.tone }}{% endif %}">{{ k.value }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="src-block ascii-box">
+      <span class="ab-bl">└</span><span class="ab-br">┘</span>
+      <div class="lbl">SOURCE · 信号来源</div>
+      <div class="src">{{ data.source_name }}</div>
+      {% if data.source_meta %}<div class="m">{{ data.source_meta }}</div>{% endif %}
+    </div>
+
+    <div class="log">
+      <div><span class="t">[{{ meta.date }} 09:30:01]</span> <span class="ok">[OK]</span> <span class="line">signal ingested · chan=SIG-{{ meta.issue_no }}</span></div>
+      <div><span class="t">[{{ meta.date }} 09:30:02]</span> <span class="ok">[OK]</span> <span class="line">{{ data.kpi | length if data.kpi else 0 }} KPIs aligned · integrity=pass</span></div>
+      <div><span class="t">[{{ meta.date }} 09:30:03]</span> <span class="warn">[&gt;&gt;]</span> <span class="line">render cover // handoff to CRT-BUF-0</span></div>
+      <div><span class="t">[{{ meta.date }} 09:30:04]</span> <span class="ok">[OK]</span> <span class="line">done · awaiting reader</span><span class="caret">▌</span></div>
+    </div>
+  </div>
+
+{% with disc='// save your attention' %}
+{% include 'bloomberg/_footer.html.j2' %}
+{% endwith %}
+</div>
+</body>
+</html>

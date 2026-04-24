@@ -1,0 +1,6 @@
+  {% include 'wsj/_focus_line.html.j2' %}
+  <footer class="supsub-footer">
+    <div class="url">supsub.ai</div>
+    <div class="disc">{{ disc | default('信息仅供参考，不构成投资建议') }}</div>
+    <div>{{ '%02d' % page_no }} / {{ '%02d' % total_pages }}</div>
+  </footer>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ data.title | default('延伸阅读') }} · 延伸</title>
+<style>
+{% include 'research/_base.css' %}
+
+.content { padding: 24px 40px 18px; }
+
+h2 {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 700;
+  color: var(--navy); margin-bottom: 14px;
+  letter-spacing: -.01em;
+  font-variation-settings: "opsz" 144;
+  line-height: 1.25;
+}
+h2 em { font-style: italic; color: var(--oxblood); font-weight: 500; }
+
+.group {
+  padding: 10px 0 10px;
+  margin-bottom: 4px;
+  position: relative;
+}
+.group + .group { border-top: 1px solid var(--rule); }
+
+.group h4 {
+  font-family: var(--font-display);
+  font-size: 15px; color: var(--navy);
+  margin-bottom: 6px; font-weight: 700;
+  display: flex; align-items: baseline; gap: 10px;
+  letter-spacing: -.005em;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 6px;
+  position: relative;
+}
+.group h4 .numeral {
+  font-family: var(--font-display);
+  font-style: italic; font-weight: 500;
+  font-size: 18px; color: var(--oxblood);
+  letter-spacing: 0;
+  min-width: 32px;
+  font-variation-settings: "opsz" 144;
+}
+.group h4 .title-cn {
+  flex: 1;
+}
+.group h4 .tag {
+  font-family: var(--font-sc);
+  font-size: 9.5px; letter-spacing: .26em;
+  color: var(--gold); text-transform: uppercase;
+  font-weight: 700;
+}
+
+.group ul { list-style: none; padding: 4px 0 0 42px; }
+.group li {
+  font-family: var(--font-cn);
+  font-size: 13px; line-height: 1.7;
+  color: var(--ink-2);
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 4px;
+}
+.group li::before {
+  content: "§";
+  position: absolute; left: 0; top: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--gold); font-size: 13px;
+  font-variation-settings: "opsz" 144;
+}
+.group li .src {
+  color: var(--ink-3);
+  font-size: 11px;
+  font-style: italic;
+  margin-left: 6px;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144;
+  font-weight: 400;
+}
+
+/* CTA：改为静谧的 colophon 风格，不再大块深蓝 */
+.cta {
+  margin-top: auto;
+  padding: 16px 20px 14px;
+  text-align: center;
+  border-top: 2px solid var(--navy);
+  border-bottom: 1px solid var(--gold);
+  background: var(--paper-2);
+  position: relative;
+}
+.cta::before {
+  content: "❦"; position: absolute;
+  top: -11px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 16px; color: var(--gold);
+  background: var(--paper); padding: 0 10px;
+}
+.cta .t {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 18px; font-weight: 500;
+  color: var(--navy);
+  margin-bottom: 6px;
+  letter-spacing: .005em;
+  display: flex; justify-content: center; align-items: center; gap: 10px;
+  font-variation-settings: "opsz" 144;
+}
+.cta .t img { filter: grayscale(0.1); }
+.cta .d {
+  font-family: var(--font-sc);
+  font-size: 10.5px; color: var(--ink-3);
+  line-height: 1.8; letter-spacing: .24em;
+  text-transform: uppercase; font-weight: 500;
+}
+.cta .d .url {
+  font-family: var(--font-display);
+  font-style: italic; font-weight: 700;
+  color: var(--oxblood);
+  text-transform: none;
+  letter-spacing: .06em;
+  font-size: 12px;
+}
+</style>
+</head>
+<body>
+<div class="card">
+{% with meta_label='Further Reading', sub_left='Further Reading · 延伸资源', sub_right='※ Subscribe', show_date=false %}
+{% include 'research/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="kicker">Further Reading · 延伸阅读</div>
+    <h2>{{ data.title }}</h2>
+
+    {% set romans = ['I','II','III','IV','V','VI'] %}
+    {% for g in data.groups %}
+    <div class="group">
+      <h4><span class="numeral">{{ romans[loop.index0] }}.</span><span class="title-cn">{{ g.title }}</span><span class="tag">§ {{ loop.index }}</span></h4>
+      <ul>
+        {% for i in g['items'] %}
+        <li>{{ i.text }}{% if i.src %}<span class="src">{{ i.src }}</span>{% endif %}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+
+    <div class="cta">
+      <div class="t"><img src="{{ logo_uri }}" width="30" height="20" alt="SupSub" style="vertical-align:middle;display:inline-block;object-fit:contain">SupSub · 把注意力留给有价值的内容</div>
+      <div class="d">AI 摘要 · 关注点筛选 · 多端同步 &nbsp;·&nbsp; <span class="url">supsub.ai</span></div>
+    </div>
+  </div>
+
+{% include 'research/_footer.html.j2' %}
+</div>
+</body>
+</html>

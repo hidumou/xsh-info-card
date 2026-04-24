@@ -1,0 +1,28 @@
+  <div class="mkt-tape">
+    <span>#{{ meta.issue_no }}</span><span class="sep">•</span>
+    <span>AI INFRA</span><span class="sep">•</span>
+    <span>SEMIS</span><span class="sep">•</span>
+    <span class="up">+LIVE</span><span class="sep">•</span>
+    <span>SIG-{{ meta.issue_no }}</span><span class="sep">•</span>
+    <span class="bar up">████████░░</span>
+    <span>84%</span><span class="sep">•</span>
+    <span>FEED OK</span><span class="sep">•</span>
+    <span class="up">▲ 3.27</span><span class="sep">•</span>
+    <span class="dn">▼ 0.91</span>
+  </div>
+  <header class="supsub-header">
+    <div class="logo"><img src="{{ logo_uri }}" width="24" height="16" alt="SupSub" style="vertical-align:middle;object-fit:contain"><strong>SUPSUB&nbsp;TERM</strong></div>
+    <div class="fn-row">
+      <span class="fn{% if meta_label == 'SIG' %} active{% endif %}">F1 COVER</span>
+      <span class="fn{% if meta_label == 'FEAT' %} active{% endif %}">F2 ABS</span>
+      <span class="fn{% if meta_label == 'KEYS' %} active{% endif %}">F3 KEYS</span>
+      <span class="fn{% if meta_label == 'PULL' %} active{% endif %}">F4 QUOTE</span>
+      <span class="fn{% if meta_label == 'NEXT' %} active{% endif %}">F5 LINK</span>
+    </div>
+    <div class="meta"><span><span class="blink"></span>{% if show_date %}{{ meta.date }}{% else %}LIVE{% endif %}</span><span>#{{ meta.issue_no }}</span></div>
+  </header>
+  <div class="ticker">
+    <span class="amb">&gt; FOCUS: <strong>{{ meta.topic_tag }}</strong></span>
+    <span>&gt; MODE: <strong>{{ sub_left }}</strong></span>
+    <span class="up">&gt; {{ sub_right }}</span>
+  </div>

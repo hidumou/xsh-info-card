@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ data.title | default('延伸阅读') }} · 延伸</title>
+<style>
+{% include 'bloomberg/_base.css' %}
+.content { padding: 14px 18px; }
+.cmd {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--phosphor);
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(0,255,157,.5);
+}
+.cmd .c { color: var(--cyan); text-shadow: 0 0 5px rgba(0,229,255,.45); }
+.cmd .a { color: var(--amber); text-shadow: 0 0 5px rgba(255,138,0,.45); }
+
+h2 {
+  font-size: 22px; font-weight: 900;
+  color: var(--fg); margin-bottom: 4px;
+  font-family: var(--font-sans);
+  text-shadow: -0.5px 0 0 rgba(255,0,64,.4), 0.5px 0 0 rgba(0,229,255,.4);
+}
+h2 em {
+  background: var(--amber); color: #000;
+  padding: 0 4px;
+  box-shadow: 0 0 12px rgba(255,138,0,.35);
+  text-shadow: none;
+}
+.out {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--dim);
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.out .amb { color: var(--amber); text-shadow: 0 0 4px rgba(255,138,0,.45); }
+.out .g { color: var(--phosphor); text-shadow: 0 0 4px rgba(0,255,157,.5); }
+
+/* Directory stack — top-to-bottom read flow */
+.dir-stack {
+  display: flex; flex-direction: column; gap: 6px;
+  margin-bottom: 10px;
+}
+.section {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 8px 12px;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 14px;
+  align-items: baseline;
+  border-left: 2px solid var(--amber);
+  position: relative;
+}
+.section:nth-child(even) { background: var(--panel-2); }
+.section h4 {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--cyan);
+  text-transform: uppercase;
+  padding-right: 10px;
+  border-right: 1px dashed var(--line-2);
+  margin: 0;
+  text-shadow: 0 0 5px rgba(0,229,255,.45);
+}
+.section h4::before {
+  content: "└▸ ";
+  color: var(--amber);
+  text-shadow: 0 0 4px rgba(255,138,0,.45);
+}
+.section li {
+  list-style: none;
+  font-size: 11.8px;
+  color: var(--fg);
+  line-height: 1.55;
+  padding: 2px 0;
+  font-family: var(--font-sans);
+}
+.section li::before {
+  content: "▸";
+  color: var(--amber);
+  margin-right: 6px;
+  font-family: var(--font-mono);
+  text-shadow: 0 0 4px rgba(255,138,0,.5);
+}
+.section li .src {
+  color: var(--dim);
+  font-size: 10px;
+  margin-left: 4px;
+  font-family: var(--font-mono);
+}
+
+/* CTA — subscribe bar as ticker */
+.cta {
+  margin-top: auto;
+  border: 1px dashed var(--amber);
+  padding: 12px 14px 10px;
+  background:
+    linear-gradient(to right, rgba(255,138,0,.12), rgba(255,138,0,.04) 50%, rgba(255,138,0,.12));
+  position: relative;
+  box-shadow: 0 0 24px rgba(255,138,0,.1), inset 0 0 20px rgba(255,138,0,.05);
+}
+.cta::before {
+  content: "[ SUBSCRIBE · LIVE FEED ]";
+  position: absolute; top: -8px; left: 14px;
+  background: var(--bg); color: var(--amber);
+  font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 2.5px; padding: 0 8px;
+  text-shadow: 0 0 6px rgba(255,138,0,.55);
+}
+.cta .t {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--phosphor);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 10px;
+  text-shadow: 0 0 8px rgba(0,255,157,.6), 0 0 16px rgba(0,255,157,.25);
+}
+.cta .t::before {
+  content: "$ ";
+  color: var(--cyan);
+  text-shadow: 0 0 5px rgba(0,229,255,.5);
+}
+.cta .d {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cta .d .g { color: var(--phosphor); text-shadow: 0 0 4px rgba(0,255,157,.5); }
+.cta .d .a { color: var(--amber); text-shadow: 0 0 4px rgba(255,138,0,.45); }
+.cta .d .tape {
+  flex: 1;
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--amber-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: right;
+}
+.cta .d .tape .on { color: var(--phosphor); text-shadow: 0 0 4px rgba(0,255,157,.5); }
+</style>
+</head>
+<body>
+<div class="card">
+{% with meta_label='NEXT', sub_left='FURTHER', sub_right='SUBSCRIBE', show_date=false %}
+{% include 'bloomberg/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="cmd"><span class="c">supsub@term</span>:<span class="a">~</span>$ <span class="a">ls</span> ./further --tree --sort=priority<span class="caret">▌</span></div>
+    <h2>&gt; {{ data.title }}</h2>
+{% set total_items = namespace(n=0) %}{% for g in data.groups %}{% set total_items.n = total_items.n + (g['items'] | length) %}{% endfor %}
+    <div class="out">// <span class="amb">{{ data.groups | length }}</span> dirs &middot; <span class="amb">{{ total_items.n }}</span> items &middot; <span class="g">&#9679; synced</span></div>
+
+    <div class="dir-stack">
+      {% for g in data.groups %}
+      <div class="section">
+        <h4>{{ g.title }}</h4>
+        <ul>
+          {% for i in g['items'] %}
+          <li>{{ i.text }}{% if i.src %}<span class="src">{{ i.src }}</span>{% endif %}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="cta">
+      <div class="t"><img src="{{ logo_uri }}" width="26" height="17" alt="SupSub" style="object-fit:contain">subscribe --feed supsub.ai --mode daily</div>
+      <div class="d"><span class="g">&#9679;</span> <span class="a">ai_digest</span> · <span class="a">focus_filter</span> · <span class="a">multi_sync</span> <span class="tape"><span class="on">████████</span>░░ 84%</span></div>
+    </div>
+  </div>
+
+{% include 'bloomberg/_footer.html.j2' %}
+</div>
+</body>
+</html>

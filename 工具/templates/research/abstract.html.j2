@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ data.title | em | striptags | default('摘要') }} · 摘要</title>
+<style>
+{% include 'research/_base.css' %}
+
+.content { padding: 24px 40px 18px; }
+
+h2 {
+  font-family: var(--font-display);
+  font-size: 30px; font-weight: 700;
+  line-height: 1.22; color: var(--navy);
+  margin-bottom: 6px; letter-spacing: -.01em;
+  font-variation-settings: "opsz" 144;
+}
+h2 em { font-style: italic; color: var(--oxblood); font-weight: 500; }
+
+.byline {
+  font-family: var(--font-sc);
+  font-size: 10.5px; color: var(--ink-3);
+  letter-spacing: .26em; text-transform: uppercase;
+  margin-bottom: 14px; font-weight: 500;
+}
+.byline strong { color: var(--oxblood); font-weight: 700; }
+
+/* === Drop cap 首字下沉 === */
+.block-abstract {
+  padding: 8px 4px 10px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.block-abstract .sec-label {
+  font-family: var(--font-sc);
+  font-size: 10.5px; letter-spacing: .32em;
+  color: var(--gold);
+  text-transform: uppercase; font-weight: 700;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 10px;
+}
+.block-abstract .sec-label::before {
+  content: "I."; font-family: var(--font-display);
+  font-style: italic; font-size: 14px; color: var(--oxblood);
+  font-variation-settings: "opsz" 144;
+  letter-spacing: 0;
+}
+.block-abstract .sec-label::after {
+  content: ""; flex: 1; height: 1px; background: var(--rule);
+}
+
+.abstract-body {
+  font-family: var(--font-cn);
+  font-size: 14px; line-height: 1.82;
+  color: var(--ink-2);
+}
+.abstract-body strong { color: var(--navy); font-weight: 700; }
+.abstract-body em {
+  font-family: var(--font-display);
+  font-style: italic; color: var(--oxblood);
+  font-weight: 500;
+}
+
+/* Drop cap —— Fraunces 特大号首字，下沉 3 行 */
+.drop-cap::first-letter {
+  font-family: var(--font-display);
+  float: left;
+  font-size: 84px;
+  line-height: .9;
+  padding: 6px 10px 0 0;
+  margin-top: 2px;
+  font-weight: 700;
+  color: var(--navy);
+  font-variation-settings: "opsz" 144;
+  font-style: normal;
+}
+
+.abstract-body ul { margin: 10px 0 4px 10px; padding: 0; list-style: none; }
+.abstract-body ul li {
+  font-size: 13.5px; line-height: 1.75;
+  padding-left: 22px; position: relative;
+  margin-bottom: 5px; color: var(--ink-2);
+}
+.abstract-body ul li::before {
+  content: "§"; position: absolute; left: 0; top: 0;
+  font-family: var(--font-display); font-style: italic;
+  color: var(--gold); font-size: 15px;
+  font-variation-settings: "opsz" 144;
+}
+
+/* === Editor's note === */
+.block-note {
+  background: var(--paper-2);
+  border-top: 1px solid var(--gold);
+  border-bottom: 1px solid var(--gold);
+  padding: 16px 22px 16px;
+  position: relative;
+}
+.block-note::before {
+  content: "Editor's Note";
+  position: absolute;
+  top: -8px; left: 22px;
+  background: var(--paper);
+  padding: 0 10px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--oxblood);
+  font-weight: 500;
+  letter-spacing: .02em;
+}
+.block-note .sec-zh {
+  font-family: var(--font-sc);
+  font-size: 10px; letter-spacing: .3em;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: 8px; margin-top: 2px;
+  font-weight: 700;
+}
+.block-note p {
+  font-family: var(--font-cn);
+  font-size: 13.5px; line-height: 1.8;
+  color: var(--ink-2);
+  font-style: italic;
+}
+.block-note p strong { color: var(--navy); font-weight: 700; font-style: normal; }
+.block-note p em {
+  font-family: var(--font-display);
+  font-style: italic; color: var(--oxblood);
+  font-weight: 500;
+}
+.block-note ol {
+  margin: 8px 0 0 22px; padding: 0;
+  list-style: none; counter-reset: editor-item;
+}
+.block-note ol li {
+  font-size: 13px; line-height: 1.72;
+  color: var(--ink-2); margin-bottom: 5px;
+  padding-left: 4px; position: relative;
+  counter-increment: editor-item;
+  font-style: italic;
+}
+.block-note ol li::before {
+  content: counter(editor-item, upper-roman) ".";
+  position: absolute; left: -22px; top: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--oxblood); font-weight: 500;
+  font-size: 13px; letter-spacing: 0;
+}
+.block-note ol li strong { color: var(--navy); font-weight: 700; font-style: normal; }
+</style>
+</head>
+<body>
+<div class="card">
+{% with meta_label='Abstract', sub_left='Feature · 摘要与编者按', sub_right='★★ Core Read', show_date=true %}
+{% include 'research/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="kicker">Abstract · 信号速读</div>
+    <h2>{{ (data.title | em) if data.title else (data.fallback_title | default('')) }}</h2>
+    <div class="byline">{{ data.byline }}</div>
+
+    <div class="block-abstract">
+      <div class="sec-label">Abstract · 摘要</div>
+      <div class="abstract-body drop-cap">{{ data.abstract | em }}</div>
+    </div>
+
+    <div class="block-note">
+      <div class="sec-zh">编者按</div>
+      <p>{{ data.editor_note | em }}</p>
+    </div>
+  </div>
+
+{% include 'research/_footer.html.j2' %}
+</div>
+</body>
+</html>

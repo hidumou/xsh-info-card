@@ -1,0 +1,12 @@
+  <header class="supsub-header">
+    <div class="logo"><img src="{{ logo_uri }}" width="32" height="22" alt="SupSub" style="vertical-align:middle;margin-right:10px;display:inline-block;object-fit:contain">SupSub</div>
+    <div class="titleblock">
+      <div class="t1">{{ meta_label }}</div>
+      <div class="t2">Research Note · Institutional Brief</div>
+    </div>
+    <div class="meta"><strong>No. {{ meta.issue_no }}</strong>{% if show_date %}<span>{{ meta.date }}</span>{% endif %}</div>
+  </header>
+  <div class="sub-bar">
+    <span>{{ sub_left }}</span>
+    <span class="rating">{{ sub_right }}</span>
+  </div>

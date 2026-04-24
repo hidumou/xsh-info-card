@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ data.title | em | striptags | default('要点') }} · 要点</title>
+<style>
+{% include 'research/_base.css' %}
+
+.content { padding: 24px 40px 18px; }
+
+h2 {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 700;
+  line-height: 1.25; color: var(--navy);
+  margin-bottom: 4px; letter-spacing: -.01em;
+  font-variation-settings: "opsz" 144;
+}
+h2 em { font-style: italic; color: var(--oxblood); font-weight: 500; }
+
+.deck-rule {
+  display: flex; align-items: center; gap: 10px;
+  margin: 8px 0 14px;
+  font-family: var(--font-sc);
+  font-size: 10.5px; letter-spacing: .3em;
+  color: var(--ink-3); text-transform: uppercase;
+  font-weight: 700;
+}
+.deck-rule::before, .deck-rule::after {
+  content: ""; flex: 1; height: 1px; background: var(--gold);
+}
+.deck-rule .orn {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px; color: var(--gold);
+  letter-spacing: 0;
+}
+
+/* 悬挂式罗马数字：item 用 padding-left 让数字悬挂出主文本边距 */
+.stack { display: flex; flex-direction: column; }
+.item {
+  padding: 14px 0 14px 62px;
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+.item:last-child { border-bottom: none; }
+.item::before {
+  content: ""; position: absolute;
+  top: 14px; bottom: 14px;
+  left: 54px; width: 1px;
+  background: var(--gold);
+  opacity: .5;
+}
+.item .roman {
+  position: absolute;
+  top: 10px; left: 0;
+  width: 50px; text-align: right;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 32px;
+  color: var(--oxblood);
+  line-height: 1;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  letter-spacing: -.02em;
+}
+.item h4 {
+  font-family: var(--font-display);
+  font-size: 17px; font-weight: 700;
+  color: var(--navy); line-height: 1.35;
+  margin-bottom: 4px;
+  font-variation-settings: "opsz" 144;
+  letter-spacing: -.005em;
+}
+.item p {
+  font-family: var(--font-cn);
+  font-size: 13px; line-height: 1.72;
+  color: var(--ink-2);
+}
+.item strong { color: var(--navy); font-weight: 700; }
+.item em {
+  font-family: var(--font-display);
+  font-style: italic; color: var(--oxblood);
+  font-weight: 500;
+}
+
+/* 多条时紧凑 */
+.card.many .item { padding: 11px 0 11px 58px; }
+.card.many .item .roman { font-size: 28px; width: 46px; left: 0; top: 8px; }
+.card.many .item::before { left: 50px; top: 11px; bottom: 11px; }
+.card.many .item h4 { font-size: 15.5px; }
+.card.many .item p { font-size: 12.5px; line-height: 1.62; }
+
+/* item 间的 fleuron（仅 item 数 <= 3 时才有空间显示） */
+.card:not(.many) .stack .item + .item::after {
+  content: ""; /* 不用 item 间的 fleuron，交给分隔线 */
+}
+</style>
+</head>
+<body>
+<div class="card{% if data['items']|length > 3 %} many{% endif %}">
+{% with meta_label='Key Takeaways', sub_left=(data['items']|length|string) + ' Key Points · ' + (['三','四','五'][(data['items']|length - 3)]) + '条关键洞察', sub_right='★ Actionable', show_date=false %}
+{% include 'research/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="kicker">Key Takeaways · {{ ['三','四','五'][(data['items']|length - 3)] }}条要点</div>
+    <h2>{{ data.title | em }}</h2>
+    <div class="deck-rule"><span class="orn">❦</span><span>Findings · {{ data['items']|length }} Points</span><span class="orn">❦</span></div>
+
+    {% set romans = ['I','II','III','IV','V'] %}
+    <div class="stack">
+    {% for item in data['items'] %}
+      <div class="item">
+        <div class="roman">{{ romans[loop.index0] }}</div>
+        <h4>{{ item.title }}</h4>
+        <p>{{ item.body | em }}</p>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+
+{% include 'research/_footer.html.j2' %}
+</div>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ data.title | em | striptags | default('摘要') }} · 摘要</title>
+<style>
+{% include 'minimal/_base.css' %}
+.content {
+  padding: 38px 56px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 顶部横向索引条 — 禁止回退到侧边竖排 */
+.topline {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 18px;
+  align-items: baseline;
+  margin-bottom: 24px;
+}
+.topline .idx {
+  font-family: var(--font-sans);
+  font-weight: 200;
+  font-size: 9.5px;
+  letter-spacing: .46em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.topline .midrule {
+  height: 0;
+  border-top: 0.5px solid var(--hair);
+  align-self: center;
+}
+.topline .num {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "wght" 200, "SOFT" 50;
+  font-feature-settings: "onum" 1, "pnum" 0, "tnum" 1, "ss01" 1, "lnum" 0;
+  font-size: 42px;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -.02em;
+}
+.topline .num small {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .22em;
+  color: var(--ink-3);
+  margin-left: 8px;
+  vertical-align: 4px;
+  font-weight: 400;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 60, "wght" 500;
+  font-size: 30px;
+  line-height: 42px;      /* 6px */
+  color: var(--ink);
+  margin-bottom: 12px;
+  letter-spacing: -.005em;
+}
+h2 em {
+  font-style: normal;
+  border-bottom: 0.5px solid var(--accent);
+  padding-bottom: 2px;
+}
+.byline {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 11, "wght" 350;
+  font-style: italic;
+  font-size: 11.5px;
+  color: var(--ink-3);
+  margin-bottom: 22px;
+  letter-spacing: .01em;
+  line-height: 18px;
+}
+.byline strong {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: .02em;
+}
+
+/* Kinfolk / Muji section labels — spaced uppercase Manrope */
+.sec-label {
+  font-family: var(--font-sans);
+  font-weight: 200;
+  font-size: 9px;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::before {
+  content: "";
+  display: inline-block;
+  width: 14px; height: 1px;
+  background: var(--ink-3);
+}
+
+.sec { margin-bottom: 18px; }
+.sec p {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 11, "wght" 400;
+  font-feature-settings: "onum" 1, "pnum" 1, "ss01" 1, "liga" 1;
+  font-size: 13px;
+  line-height: 24px;       /* 6px baseline */
+  color: var(--ink-2);
+  -webkit-hanging-punctuation: first;
+  hanging-punctuation: first;
+}
+.sec p strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+.sec ul {
+  margin-top: 10px;
+  margin-left: 0;
+}
+.sec ul li {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 11, "wght" 400;
+  font-size: 12px;
+  line-height: 24px;
+  color: var(--ink-2);
+  padding-left: 18px;
+  position: relative;
+}
+.sec ul li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--ink-4);
+  font-family: var(--font-serif);
+}
+.sec ol {
+  margin: 8px 0 0;
+  counter-reset: ordered;
+  padding-left: 0;
+}
+.sec ol li {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 11, "wght" 400;
+  font-size: 12.5px;
+  line-height: 24px;
+  color: var(--ink-2);
+  padding-left: 24px;
+  position: relative;
+  counter-increment: ordered;
+}
+.sec ol li::before {
+  content: counter(ordered, decimal-leading-zero);
+  position: absolute;
+  left: 0; top: 0;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 11, "wght" 300;
+  font-feature-settings: "onum" 1, "pnum" 0, "tnum" 1, "lnum" 0;
+  color: var(--accent);
+  font-size: 10.5px;
+  letter-spacing: .04em;
+  line-height: 24px;
+}
+
+/* gold hairline left-rule for editor note */
+.sec.editor {
+  border-left: 1px solid var(--accent);
+  padding-left: 18px;
+  margin-left: 2px;
+}
+.sec.editor p {
+  font-style: italic;
+  font-variation-settings: "opsz" 11, "wght" 400;
+  color: var(--ink-2);
+}
+
+.sep { margin: 10px 0 18px; display: block; }
+.sep::before {
+  content: "";
+  display: block;
+  width: 24px; height: 1px;
+  background: var(--accent);
+}
+</style>
+</head>
+<body>
+<div class="card">
+{% with meta_label='FEATURE', sub_left='Abstract + Editor', sub_right='★★ CORE', show_date=true %}
+{% include 'minimal/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="topline">
+      <div class="idx">A&nbsp;B&nbsp;S&nbsp;T&nbsp;R&nbsp;A&nbsp;C&nbsp;T</div>
+      <div class="midrule"></div>
+      <div class="num">02<small>OF&nbsp;05</small></div>
+    </div>
+
+    <h2>{{ (data.title | em) if data.title else '' }}</h2>
+    <div class="byline">{{ data.byline }}</div>
+
+    <div class="sec">
+      <div class="sec-label">Abstract &nbsp;·&nbsp; 摘要</div>
+      <p>{{ data.abstract | em }}</p>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="sec editor">
+      <div class="sec-label">Editor&rsquo;s Note &nbsp;·&nbsp; 编者按</div>
+      <p>{{ data.editor_note | em }}</p>
+    </div>
+  </div>
+
+{% include 'minimal/_footer.html.j2' %}
+</div>
+</body>
+</html>

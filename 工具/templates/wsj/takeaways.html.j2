@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ data.title | em | striptags | default('要点') }} · 要点</title>
+<style>
+{% include 'wsj/_base.css' %}
+.content { padding: 20px 40px 14px; }
+
+.section-label-top {
+  text-align: center;
+  font-family: var(--font-condensed);
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: .4em;
+  color: var(--red-ink);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.section-label-top::before { content: "❖  "; }
+.section-label-top::after  { content: "  ❖"; }
+
+h2 {
+  font-family: var(--font-masthead);
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1.18;
+  text-align: center;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+h2 em { font-style: italic; color: var(--red-ink); }
+
+.deck {
+  font-family: var(--font-serif-alt);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-2);
+  text-align: center;
+  padding: 4px 0 10px;
+  margin-bottom: 4px;
+}
+
+/* 点状装饰节点，替代长横分隔 */
+.node-sep {
+  text-align: center;
+  color: var(--red-ink);
+  font-size: 12px;
+  letter-spacing: .5em;
+  padding: 2px 0 6px;
+  font-family: var(--font-serif);
+}
+
+/* 要点：罗马数字 Playfair italic 44 + title Libre Caslon 17 + body 13 */
+.item {
+  padding: 8px 0 8px;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 14px;
+  border-bottom: 1px dashed var(--paper-edge);
+}
+.item:last-child { border-bottom: none; }
+.item .num {
+  font-family: var(--font-masthead);
+  font-size: 44px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--red-ink);
+  line-height: 0.9;
+  text-align: right;
+  letter-spacing: -0.02em;
+}
+.item .body h4 {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.28;
+  letter-spacing: -0.005em;
+}
+.item .body p {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  line-height: 1.72;
+  color: var(--ink-2);
+  text-align: justify;
+  hyphens: auto;
+}
+.item .body p strong { color: var(--ink); font-weight: 700; }
+
+.card.many .item { padding: 6px 0; gap: 12px; }
+.card.many .item .num { font-size: 34px; }
+.card.many .item .body h4 { font-size: 15px; }
+.card.many .item .body p { font-size: 12px; line-height: 1.58; }
+</style>
+</head>
+<body>
+<div class="card{% if data['items']|length > 3 %} many{% endif %}">
+{% with meta_label='TAKEAWAYS', sub_left=(data['items']|length|string) + ' KEY POINTS', sub_right='★ ACTIONABLE', show_date=false %}
+{% include 'wsj/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="section-label-top">KEY TAKEAWAYS &middot; {{ data['items']|length }} POINTS</div>
+    <h2>{{ data.title | em }}</h2>
+    <div class="deck">一页读懂今日信号所指向的同一个结构性转折</div>
+    <div class="node-sep">❖ &nbsp; ◆ &nbsp; ❖</div>
+
+    {% set romans = ['I','II','III','IV','V','VI','VII'] %}
+    {% for item in data['items'] %}
+    <div class="item">
+      <div class="num">{{ romans[loop.index0] }}.</div>
+      <div class="body"><h4>{{ item.title }}</h4><p>{{ item.body | em }}</p></div>
+    </div>
+    {% endfor %}
+  </div>
+
+{% include 'wsj/_footer.html.j2' %}
+</div>
+</body>
+</html>

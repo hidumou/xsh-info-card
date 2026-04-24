@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>金句 · {{ data.cite }}</title>
+<style>
+{% include 'minimal/_base.css' %}
+.content {
+  padding: 50px 56px 30px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* 顶部索引条 */
+.topline {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 18px;
+  align-items: baseline;
+  margin-bottom: 48px;
+}
+.topline .idx {
+  font-family: var(--font-sans);
+  font-weight: 200;
+  font-size: 9.5px;
+  letter-spacing: .46em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.topline .midrule { height: 0; border-top: 0.5px solid var(--hair); align-self: center; }
+.topline .num {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "wght" 200;
+  font-feature-settings: "onum" 1, "pnum" 0, "tnum" 1, "ss01" 1, "lnum" 0;
+  font-size: 42px;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -.02em;
+}
+.topline .num small {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .22em;
+  color: var(--ink-3);
+  margin-left: 8px;
+  vertical-align: 4px;
+}
+
+/* hero pull quote — Fraunces opsz 144 wght 300 italic */
+.q-wrap {
+  flex: 1;
+  position: relative;
+  padding: 0 10px 0 0;
+}
+.q-mark {
+  display: block;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "wght" 300;
+  font-style: italic;
+  font-size: 46px;
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: 0;
+  margin: 0 0 6px -4px;
+  height: 22px;
+  overflow: visible;
+}
+blockquote {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "wght" 300, "SOFT" 50;
+  font-feature-settings: "onum" 1, "pnum" 1, "ss01" 1, "liga" 1;
+  font-style: italic;
+  font-size: 42px;
+  line-height: 60px;            /* 6px baseline */
+  font-weight: 300;
+  color: var(--ink);
+  margin: 0 0 48px;
+  letter-spacing: -.018em;
+  -webkit-hanging-punctuation: first allow-end;
+  hanging-punctuation: first allow-end;
+}
+blockquote em {
+  font-style: italic;
+  border-bottom: 0.5px solid var(--accent);
+  padding-bottom: 3px;
+}
+
+/* attribution — tiny, spaced, uppercase label style */
+.attribution {
+  padding-top: 16px;
+  border-top: 0.5px solid var(--hair);
+  max-width: 420px;
+}
+cite {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: .34em;
+  color: var(--ink-2);
+  text-transform: uppercase;
+  display: block;
+}
+cite::before { content: ""; }
+
+.context {
+  margin-top: 20px;
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 11, "wght" 400;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 24px;
+  max-width: 520px;
+  padding-left: 14px;
+  border-left: 0.5px solid var(--hair);
+}
+</style>
+</head>
+<body>
+<div class="card">
+{% with meta_label='QUOTE', sub_left='Pull Quote', sub_right='★ SHARE', show_date=false %}
+{% include 'minimal/_header.html.j2' %}
+{% endwith %}
+
+  <div class="content">
+    <div class="topline">
+      <div class="idx">Q&nbsp;U&nbsp;O&nbsp;T&nbsp;A&nbsp;T&nbsp;I&nbsp;O&nbsp;N</div>
+      <div class="midrule"></div>
+      <div class="num">04<small>OF&nbsp;05</small></div>
+    </div>
+
+    <div class="q-wrap">
+      <span class="q-mark">&ldquo;</span>
+      <blockquote>{{ data.text | em }}</blockquote>
+      <div class="attribution">
+        <cite>{{ data.cite }}</cite>
+        {% if data.context %}<div class="context">{{ data.context }}</div>{% endif %}
+      </div>
+    </div>
+  </div>
+
+{% include 'minimal/_footer.html.j2' %}
+</div>
+</body>
+</html>
