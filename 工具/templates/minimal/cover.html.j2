@@ -30,24 +30,23 @@
 .mono-strip .dot { color: var(--ink-4); }
 .mono-strip .emp { color: var(--ink); }
 
-/* HERO — 020 cropped against the top edge */
+/* HERO — 020，完整显示不裁切 */
 .hero {
   position: relative;
-  height: 340px;
+  height: 260px;
   margin: 0 -4px 0 -10px;
-  overflow: hidden;
   display: block;
 }
 .hero .number {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 144, "wght" 200, "SOFT" 50;
   font-feature-settings: "onum" 1, "pnum" 0, "tnum" 1, "ss01" 1, "lnum" 0;
-  font-size: 300px;
-  line-height: 0.78;
+  font-size: 260px;
+  line-height: 1;
   letter-spacing: -.045em;
   color: var(--ink);
   position: absolute;
-  top: -46px;                 /* crop top of the 020 */
+  top: 0;
   left: -6px;
   white-space: nowrap;
 }
