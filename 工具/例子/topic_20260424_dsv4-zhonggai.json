@@ -1,0 +1,100 @@
+{
+  "slug": "DSV4-中概估值修复",
+  "meta": {
+    "issue_no": "022",
+    "date": "2026.04.24",
+    "topic_tag": "AI 产业 · DSV4 × CHINA-CHIPS × HK-REPRICING",
+    "rating": "★★ 必读 · MUST READ",
+    "kicker_default": "DAILY BRIEF · 今日信号",
+    "focus_name": "顶级机构研报精选"
+  },
+  "cover": {
+    "title": "DSV4 当日贯通<br>「{em}模型—芯片—落地{/em}」<br>撬动中概港股估值修复",
+    "dek": "同一天：深度求索发布并开源 DeepSeek V4（1M 上下文 + Agent），海光宣布 Day0 适配、寒武纪涨停、昇腾 950PR 同步支持；港股 MiniMax 反向跳水 5%，恒生科技估值修复窗口打开——国产 AI 闭环第一次做到当日贯通。",
+    "source_name": "深度求索 · DeepSeek V4 预览版开源公告",
+    "source_meta": "本期信号来自 <strong>SupSub · 顶级机构研报精选</strong> 关注点的交叉聚合",
+    "kpi": [
+      { "key": "DSV4 上下文", "value": "1M Token" },
+      { "key": "海光 Day0 适配", "value": "+6%", "tone": "up" },
+      { "key": "MiniMax 港股", "value": "-5%", "tone": "down" }
+    ]
+  },
+  "abstract": {
+    "title": "DSV4 当日贯通「模型—芯片—落地」，撬动中概港股估值修复",
+    "byline": "十余条同日信号交叉佐证 · 2026.04.24",
+    "abstract": "2026 年 4 月 24 日，国产 AI 闭环第一次做到「<strong>模型发布—芯片适配—产业落地</strong>」当日贯通：<ul><li>深度求索发布并开源 <strong>DeepSeek V4</strong> 双版本（V4 + V4-Flash / V4-Pro），支持 <strong>1M 上下文 + Agent</strong> 能力；</li><li>海光信息宣布 DCU <strong>Day0 适配</strong> DSV4，当日股价 <strong>涨超 6%</strong>，寒武纪同步拉升，昇腾 950PR 同步支持；</li><li>DSV4 7 分钟触发国产 AI 芯片板块直线涨停，费城半导体指数刷出 <strong>17 连阳</strong>、台积电创历史新高，溢出到全球；</li><li>港股 <strong>MiniMax 反向跳水近 5%</strong>——AI 新贵内部分化已经开始；恒生科技 / 中概被策略商家视为「DSV4 撬动的估值修复窗口」；</li><li>头部公募同日撤离「便宜科技」，抱团智谱、MiniMax 等 AI 新贵——估值叙事完成一次切换。</li></ul>",
+    "editor_note": "DSV4 不是「又一个模型发布」。{em}它第一次在同一天里把「国产模型 — 国产算力 — 港股资产」这三块单独的拼图接上了{/em}。对两类读者：<ol><li>对 A/H 股投资人 —— 恒生科技和部分中概的估值修复窗口真正打开，但板块内部 MiniMax 港股同日跳水 5% 说明了一件事：修复不是普涨，是选股；</li><li>对 Agent 类创业者 —— 1M 上下文 + Agent 能力 + 国产算力 Day0 对齐，意味着 Agent 应用的「推理成本 × 上下文长度 × 算力可用性」三重约束同时被放松。</li></ol>"
+  },
+  "takeaways": {
+    "title": "国产 AI 闭环第一次做到{em}当日贯通{/em}",
+    "items": [
+      {
+        "title": "模型侧：DSV4 预览版开源，1M 上下文 + Agent",
+        "body": "深度求索同日发布 <strong>DeepSeek V4</strong> 与 <strong>V4-Flash / V4-Pro</strong> 双版本并开源，支持 <strong>百万字上下文</strong> 与 Agent 能力；DSA 稀疏注意力 + 超长推理把「上下文 × 成本」再平坦化一个数量级。",
+        "src": "· 中国基金报 / 数据法盟"
+      },
+      {
+        "title": "算力侧：海光 Day0 适配 + 昇腾同步",
+        "body": "海光信息宣布 DCU <strong>Day0 适配</strong> DSV4，股价涨超 <strong>6%</strong>；昇腾 950PR 同步支持、寒武纪同步拉升——「模型发布 × 芯片适配 × 产业落地」第一次在同一天闭合。",
+        "src": "· 科创板日报 · 郭辉"
+      },
+      {
+        "title": "资金侧：公募从便宜科技切向 AI 新贵",
+        "body": "头部公募撤离「便宜科技」，抱团智谱、MiniMax、海光、寒武纪等 AI 新贵；易方达亚洲半导体 ETF 涨超 <strong>3%</strong> 创新高，费半 <strong>17 连阳</strong>创史上最长——估值叙事切换。",
+        "src": "· 数据宝 / 券商中国"
+      },
+      {
+        "title": "港股 / 中概：修复窗口打开 + 内部分化",
+        "body": "DSV4 被多家策略商家视为「撬动中概与港股情绪的关键支点」，恒生科技估值修复窗口打开；但同日港股 <strong>MiniMax 反向跳水近 5%</strong>——修复不是普涨，内部分化已经开始。",
+        "src": "· 范俊青 / 刘备教授"
+      },
+      {
+        "title": "外资时间锚：AI 上行 1-2 年 · 硬件 + 能源",
+        "body": "普来仕（T. Rowe Price）明确：本轮 AI 上行周期有望<strong>延续 1-2 年</strong>，最具吸引力的是「<strong>芯片/硬件及能源</strong>」——方向不是光模块，而是更上游的算力、电力、先进封装。",
+        "src": "· 财经-金融界"
+      }
+    ]
+  },
+  "quote": {
+    "text": "海光 DCU <br>同步完成对 DeepSeek V4 的 <br>{em}Day0 适配{/em}，<br>以「模型发布—芯片适配—产业落地」<br>的高效闭环。",
+    "cite": "海光信息 · 2026.04.24 官方公告",
+    "context": "—— 这是国产 AI 闭环第一次做到「模型-芯片-产业」当日贯通。过去每一次海外大模型迭代，国产侧往往滞后数周甚至数月，今天直接压缩到「0 天」——这不是一条公司新闻，是「国产 AI 闭环能否闭合」的分水岭。"
+  },
+  "further": {
+    "title": "把今天的闭环信号连成一张地图",
+    "groups": [
+      {
+        "title": "模型侧 · DeepSeek V4",
+        "items": [
+          { "text": "DeepSeek V4 双版本正式上线并开源", "src": "· 数据法盟 · 1M 上下文 + Agent" },
+          { "text": "全球 AI 大变天，DeepSeek 掀桌子了", "src": "· 投资家 · 性价比突破" },
+          { "text": "7 分钟，直线涨停！DeepSeek 重磅来袭", "src": "· 券商中国" }
+        ]
+      },
+      {
+        "title": "算力闭环 · 芯片侧",
+        "items": [
+          { "text": "海光信息宣布 Day0 适配 DeepSeek V4", "src": "· 科创板日报" },
+          { "text": "DeepSeek-V4 预览版上线，海光 +6%，寒武纪涨", "src": "· 每日经济新闻" },
+          { "text": "DeepSeek V4 发布，芯片板块为什么今天领涨？", "src": "· iETF 令狐冲 · 昇腾 950PR" }
+        ]
+      },
+      {
+        "title": "港股 / 中概 · 估值修复",
+        "items": [
+          { "text": "DeepSeek V4 发布：点燃中概股信心，港股迎来新曙光", "src": "· 范俊青" },
+          { "text": "中概可能要出坑了", "src": "· 南山之路" },
+          { "text": "港股异动 · MiniMax 跳水近 5%（反向）", "src": "· 财经-金融界" }
+        ]
+      },
+      {
+        "title": "资金面 · 估值切换",
+        "items": [
+          { "text": "撤离「便宜科技」，头部公募抱团 AI 新贵", "src": "· 数据宝 / 券商中国" },
+          { "text": "普来仕：AI 上行周期延续 1-2 年", "src": "· T. Rowe Price" },
+          { "text": "易方达亚洲半导体 ETF 涨超 3% 创新高 · 17 连阳", "src": "· 财经-金融界 / 科创板日报" }
+        ]
+      }
+    ]
+  }
+}
