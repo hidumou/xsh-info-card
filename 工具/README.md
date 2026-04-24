@@ -7,9 +7,7 @@
          ↓
   [整理为 topic.json（按 schema.md 格式）]
          ↓
-  [build_cards.py → 5 张 HTML]
-         ↓
-  [render_png.py → 5 张 PNG（可选）]
+  [build_cards.py → 5 张 PNG（默认只出 PNG，不留 HTML）]
          ↓
   [发布到小红书/朋友圈 → 导流 supsub.ai]
 ```
@@ -18,52 +16,55 @@
 
 ```
 工具/
-├── build_cards.py          # 主生成器：JSON → HTML
-├── render_png.py           # HTML → PNG（Playwright）
-├── remove_watermark.py     # AI 图水印去除小工具
+├── build_cards.py          # 主生成器：JSON → PNG（内部用 Jinja2 渲 HTML + Playwright 截图）
+├── render_png.py           # HTML → PNG（Playwright，供 build_cards.py 调用，也可独立用）
 ├── schema.md               # JSON 数据格式完整说明
 ├── README.md               # 本文件
+├── logo_clean.png          # SupSub logo，build_cards.py 读成 data URI 注入模板
 ├── 例子/
 │   └── topic_ai_infra_0424.json    # 示例 topic
 └── templates/
-    └── research/           # 机构研报风（完整实现）
-        ├── _base.css
-        ├── _header.html.j2
-        ├── _footer.html.j2
-        ├── _focus_line.html.j2
-        ├── cover.html.j2
-        ├── abstract.html.j2
-        ├── takeaways.html.j2
-        ├── quote.html.j2
-        └── further.html.j2
+    ├── research/           # 机构研报风（Foreign Affairs / HBR 质感）
+    ├── wsj/                # 华尔街日报风（1890s 活版铅印大报）
+    ├── bloomberg/          # 彭博终端风（CRT 任务控制台）
+    └── minimal/            # 财报极简（Kinfolk / Muji 编辑风）
 ```
 
 ## 依赖
 
 ```bash
-pip install Jinja2 --break-system-packages
-# 需要 PNG 时再装：
-pip install playwright --break-system-packages
+pip install Jinja2 playwright --break-system-packages
 playwright install chromium
 ```
 
 ## 命令
 
 ```bash
-# 生成 HTML，按 ISO 周数自动轮换风格
+# 按 ISO 周数自动轮换风格，渲染 5 张 PNG 到 信息内容/<slug>/
 python3 工具/build_cards.py 工具/例子/topic_xxx.json
 
-# 强制指定风格
-python3 工具/build_cards.py topic.json --style research
+# 指定风格，输出到自定义目录
+python3 工具/build_cards.py topic.json --style research --output 信息内容/<slug>/research
 
-# 同时导出 PNG
-python3 工具/build_cards.py topic.json --png
+# 调试时保留中间产物 HTML
+python3 工具/build_cards.py topic.json --keep-html
 
 # 查看风格清单
 python3 工具/build_cards.py --list-styles topic.json
 ```
 
-默认输出到 `信息内容/<slug>/`，其中 `slug` 来自 `topic.json` 顶层的 `slug` 字段。
+默认输出目录：`信息内容/<slug>/`，`slug` 来自 `topic.json` 顶层的 `slug` 字段。
+
+## 风格
+
+| key | 名称 | 设计 DNA |
+|---|---|---|
+| research | 机构研报风 | Fraunces + EB Garamond，❦ 花饰分隔，陈年金 + 暗酒红 + 米色纸 |
+| wsj | 华尔街日报风 | Playfair Display + IM Fell，drop cap，纸纹网点，报纸红/黑 |
+| bloomberg | 彭博终端风 | JetBrains Mono，CRT 扫描线，磷光发光，ASCII 盒线 |
+| minimal | 财报极简 | Fraunces opsz 极变，熔金重音，0.5px 发丝线，6px 节律 |
+
+自动轮换规则：ISO 周数 mod 4 → research / wsj / bloomberg / minimal。用 `--style <key>` 显式指定则不轮换。
 
 ## JSON 字段约定
 
@@ -73,36 +74,19 @@ python3 工具/build_cards.py --list-styles topic.json
 - `meta.focus_name` 必填：对应 SupSub 关注点名，显示在每张卡页脚上方
 - `takeaways.items` 数量 **3-5 条**，小于 3 或大于 5 会报错；4-5 条时自动收紧排版
 - 正文字段支持：
-  - `{em}...{/em}` → 金色高亮
+  - `{em}...{/em}` → 金色/朱砂红高亮（按风格不同）
   - `<strong>` → 深色加粗
   - `<ul><li>` / `<ol><li>` → 列表
   - `<br>` → 换行
 
-## 风格轮换
-
-按 ISO 周数 mod 6：
-
-| 周数 mod 6 | 风格 key | 显示名 | 状态 |
-|---|---|---|---|
-| 1 | research | 机构研报风 | ✅ |
-| 2 | wsj | 华尔街日报风 | ⏳ 待 Jinja2 化 |
-| 3 | bloomberg | 彭博终端风 | ⏳ 待 Jinja2 化 |
-| 4 | minimal | 财报极简 | ⏳ 待 Jinja2 化 |
-| 5 | cn | 中式研报 | ⏳ 待 Jinja2 化 |
-| 0 | quant | 量化数据风 | ⏳ 待 Jinja2 化 |
-
-用 `--style auto` 启用轮换；未实现的风格会报错并列出已有风格。
-
-## 扩展：添加新风格
-
-1. 拷贝 `templates/research/` 为 `templates/<new_style>/`
-2. 修改 `_base.css` 里的主色、字体栈、背景
-3. 按需调整各卡的独立 CSS（`cover.html.j2` 等文件顶部的 `<style>` 区）
-4. header/footer/focus_line 三个 partial 保持结构一致，只改配色
-5. 测试：`python3 build_cards.py 例子/topic_xxx.json --style <new_style>`
-
 JSON schema 所有风格共享，无需针对风格改数据格式。
 
-## 其他小工具
+## 每日自动化
 
-- `remove_watermark.py`：去除 AI 生成图右下角水印（支持 box 填充、灰字识别、透明底保留）。用法见脚本内 docstring。
+每天 09:00 Asia/Shanghai，Claude Code remote routine 会：
+1. 从 SupSub 拉当日关注点 markdown
+2. 挑 3 条主线生成 3 个 topic JSON
+3. 每个话题渲染 4 套风格 × 5 张 = 20 张 PNG
+4. 直接 commit 到 `main`
+
+路由管理：https://claude.ai/code/routines/trig_017EghofernGGz385Ako2Foo
