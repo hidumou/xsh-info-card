@@ -39,6 +39,7 @@ import re
 import sys
 import subprocess
 import tempfile
+import zipfile
 from datetime import date as dt_date
 from pathlib import Path
 
@@ -275,6 +276,14 @@ def _png_export(html_pairs: list[tuple[str, Path]], png_dir: Path) -> None:
         )
 
 
+def _make_zip(png_files: list[Path], zip_path: Path) -> None:
+    """把渲染好的 PNG 打包成 zip（只保留 basename，便于直接分享一份卡包）。"""
+    zip_path.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+        for f in png_files:
+            zf.write(f, arcname=f.name)
+
+
 # --------- CLI ---------
 
 def main() -> int:
@@ -317,12 +326,14 @@ def main() -> int:
         print(f"Output: {output_dir}\n")
 
         files = build(topic, style, output_dir, keep_html=args.keep_html)
+        zip_path = output_dir.parent / f"{slug}.zip"
+        _make_zip(files, zip_path)
     except BaseException:
         rollback_issue_no(style, issue_no)
         print(f"[err] 生成失败，已回滚 info.json: {style} -> {issue_no}", file=sys.stderr)
         raise
 
-    for f in files:
+    for f in files + [zip_path]:
         try:
             rel = f.relative_to(PROJECT_ROOT)
         except ValueError:
