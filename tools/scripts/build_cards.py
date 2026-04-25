@@ -139,6 +139,16 @@ def _validate(data: dict) -> None:
         elif n > 5:
             errors.append(f"takeaways.items 最多 5 条（当前 {n} 条）")
 
+    keywords = data.get("keywords")
+    if not isinstance(keywords, list):
+        errors.append("keywords 必须是数组（顶层字段，如 [\"k1\", \"k2\", ...]）")
+    else:
+        n = len(keywords)
+        if n < 5:
+            errors.append(f"keywords 需要至少 5 条（当前 {n} 条）")
+        elif n > 10:
+            errors.append(f"keywords 最多 10 条（当前 {n} 条）")
+
     if not data["meta"].get("focus_name"):
         warnings.append("meta.focus_name 未设置 → 不会显示关注点标签（推荐加上，避免每条都写媒体源）")
 
@@ -276,12 +286,21 @@ def _png_export(html_pairs: list[tuple[str, Path]], png_dir: Path) -> None:
         )
 
 
-def _make_zip(png_files: list[Path], zip_path: Path) -> None:
-    """把渲染好的 PNG 打包成 zip（只保留 basename，便于直接分享一份卡包）。"""
+def _make_zip(files: list[Path], zip_path: Path) -> None:
+    """把渲染好的产物打包成 zip（只保留 basename，便于直接分享一份卡包）。"""
     zip_path.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        for f in png_files:
+        for f in files:
             zf.write(f, arcname=f.name)
+
+
+def _write_keyword_json(keywords: list[str], out_path: Path) -> None:
+    """把 topic.keywords 写成 keyword.json，与 5 张 PNG 同目录。"""
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(
+        json.dumps({"keywords": list(keywords)}, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
 
 # --------- CLI ---------
@@ -326,14 +345,16 @@ def main() -> int:
         print(f"Output: {output_dir}\n")
 
         files = build(topic, style, output_dir, keep_html=args.keep_html)
+        keyword_path = output_dir / "keyword.json"
+        _write_keyword_json(topic["keywords"], keyword_path)
         zip_path = output_dir.parent / f"{slug}.zip"
-        _make_zip(files, zip_path)
+        _make_zip(files + [keyword_path], zip_path)
     except BaseException:
         rollback_issue_no(style, issue_no)
         print(f"[err] 生成失败，已回滚 info.json: {style} -> {issue_no}", file=sys.stderr)
         raise
 
-    for f in files + [zip_path]:
+    for f in files + [keyword_path, zip_path]:
         try:
             rel = f.relative_to(PROJECT_ROOT)
         except ValueError:

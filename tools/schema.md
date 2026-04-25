@@ -7,6 +7,7 @@
 ```jsonc
 {
   "slug": "2026-04-23-huoermuzi-boyi",      // 必填：文件夹名 / 编号，支持 ASCII 或中文
+  "keywords": ["...", "..."],                // 必填：5-10 条关键词，写入 output 目录的 keyword.json
   "meta": { ... },                           // 元信息，所有卡片共享
   "cover":     { ... },                      // 1-封面
   "abstract":  { ... },                      // 2-摘要
@@ -17,6 +18,10 @@
 ```
 
 如果某张卡不想生成，省略对应字段即可（生成器会跳过）。
+
+## `keywords` — 关键词数组
+
+顶层字符串数组，5-10 条。生成时会写入 `output/<date>/<slug>/keyword.json`，结构 `{"keywords": ["k1", "k2", ...]}`，并被一并打入同名 zip。
 
 ## `meta` — 全局元信息
 
