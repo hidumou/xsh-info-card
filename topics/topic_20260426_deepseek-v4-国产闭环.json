@@ -1,0 +1,136 @@
+{
+  "slug": "deepseek-v4-国产闭环",
+  "keywords": [
+    "DeepSeek V4",
+    "百万Token上下文",
+    "华为昇腾",
+    "国产AI芯片",
+    "1.6万亿参数",
+    "估值100亿美元",
+    "黄仁勋",
+    "Anthropic Conway",
+    "国家超算互联网",
+    "Token经济"
+  ],
+  "meta": {
+    "issue_no": "",
+    "date": "2026.04.26",
+    "topic_tag": "AI 模型 · CHINA × INFRASTRUCTURE",
+    "rating": "★★ 必读 · MUST READ",
+    "kicker_default": "DAILY BRIEF · 今日信号",
+    "focus_name": "顶级机构研报精选"
+  },
+  "cover": {
+    "title": "DeepSeek V4 把<br>{em}国产算力闭环{/em}<br>从「拼概念」拉进「拼调度」",
+    "dek": "1.6 万亿参数 + 百万 Token 上下文 + 适配华为昇腾，叠加 100 亿美元估值首轮融资——同一天黄仁勋开口，Anthropic 也承认 Claude Code 性能下滑。国产模型 + 国产芯片 + 国产算力，三角第一次同步闭合。",
+    "source_name": "SupSub · 关注点",
+    "source_meta": "本期信号来自 <strong>SupSub · 顶级机构研报精选</strong> 关注点的交叉聚合",
+    "kpi": [
+      {
+        "key": "V4 参数",
+        "value": "1.6 万亿"
+      },
+      {
+        "key": "上下文",
+        "value": "1M Token",
+        "tone": "up"
+      },
+      {
+        "key": "估值",
+        "value": "$100 亿+",
+        "tone": "up"
+      }
+    ]
+  },
+  "abstract": {
+    "title": "DeepSeek V4 把国产算力闭环拉进「拼调度」阶段",
+    "byline": "多源同日信号交叉佐证 · 2026.04.26",
+    "abstract": "今日围绕 DeepSeek V4 集中出现 5 条互相咬合的信号：<ul><li>DeepSeek V4 预览版开源，参数 <strong>1.6 万亿</strong>，分 Pro / Flash 双版本，全线支持 <strong>百万 Token</strong> 上下文，Pro 性能逼近 GPT-5.5 闭源标杆；</li><li>V4 首次完整适配华为昇腾，国家超算互联网平台同日上线限时免费对话——「国产芯片 + 国产模型 + 国产算力底座」三角闭合；</li><li>DeepSeek 首次传出融资计划，估值 <strong>超 100 亿美元</strong>，用于补算力与人才；</li><li>百度智能云、海光、寒武纪、华为昇腾生态伙伴（拓维、润和、软通动力）当日同步公告完成 V4 适配；</li><li>对照面：英伟达 CEO 黄仁勋公开表态对 DeepSeek 适配国产芯片表示担忧，同时 Anthropic 承认 Claude Code 因优化失误性能下滑、内部代号 Conway 的常驻智能体项目泄露。</li></ul>",
+    "editor_note": "这五条不是「又一个开源大模型」，而是 {em}国产 AI 第一次把模型、芯片、算力底座、应用入口在同一天对齐{/em}。落到两类读者：<ol><li>对 A/H 股投资人 —— 别再单押模型，重看「昇腾生态 + 超算调度 + 应用 ARR」三件套；V4 价格下半年还要往下走，Token 经济的弹性才刚出现；</li><li>对创业者 —— 百万 Token + 多 Agent 把推理成本结构彻底打开，垂直 Token / 私有部署是接下来 12 个月最稀缺的位置。</li></ol>"
+  },
+  "takeaways": {
+    "title": "国产 AI 第一次{em}模型、芯片、算力{/em}同日对齐",
+    "items": [
+      {
+        "title": "模型侧：1.6 万亿参数 + 百万上下文",
+        "body": "V4 预览版双版本同步开源，<strong>1.6 万亿</strong>参数 MoE 架构，Pro / Flash 全线支持 <strong>1M Token</strong> 上下文；Pro 在第三方评测上接近 GPT-5.5，Flash 主打高效经济。"
+      },
+      {
+        "title": "芯片底座：昇腾首次完整承接",
+        "body": "DeepSeek V4 完整适配 <strong>华为昇腾 950</strong>；同日海光、寒武纪、拓维、润和、软通动力等生态伙伴宣布完成调用对接，国产推理链路首次跑通。"
+      },
+      {
+        "title": "算力入口：超算互联网限免",
+        "body": "国家超算互联网平台联合 DeepSeek 推出 V4 限时<strong>免费对话</strong>，覆盖百万 Token 长文本能力。算力作为公共基础设施被首次拿到大模型分发链路最前端。"
+      },
+      {
+        "title": "资本侧：100 亿美元估值首轮融资",
+        "body": "坚持自研、零外部融资三年的 DeepSeek，首次传出融资计划，估值 <strong>超 100 亿美元</strong>，用途明确指向算力与人才，对应核心团队中 10 名骨干已被互联网大厂高薪挖角。"
+      },
+      {
+        "title": "对照面：黄仁勋开口 + Claude 翻车",
+        "body": "英伟达 CEO 黄仁勋公开担忧 V4 适配国产芯片的产业冲击；同一天 Anthropic 承认 Claude Code <strong>性能下滑</strong>，内部 Conway 智能体代码泄露——闭源阵营首次同时出现两条裂缝。"
+      }
+    ]
+  },
+  "quote": {
+    "text": "我担心他们<br>把 DeepSeek<br>{em}调到本土芯片上跑{/em}。",
+    "cite": "黄仁勋 · 英伟达 CEO · 谈 V4 国产化路径",
+    "context": "—— 第一次有 GPU 一线 CEO 公开把「模型 × 国产芯片」当成结构性变量来谈。这句话本身，就是国产闭环已经接近商业化临界点的证词。"
+  },
+  "further": {
+    "title": "把今天的信号连成一张地图",
+    "groups": [
+      {
+        "title": "模型侧 · V4 双版本",
+        "items": [
+          {
+            "text": "DeepSeek V4 Pro / Flash 同步开源 · 百万 Token"
+          },
+          {
+            "text": "Pro 性能逼近 GPT-5.5 · Flash 主打高效"
+          }
+        ]
+      },
+      {
+        "title": "国产闭环 · 芯片 + 算力",
+        "items": [
+          {
+            "text": "完整适配华为昇腾 950"
+          },
+          {
+            "text": "国家超算互联网平台限时免费对话"
+          },
+          {
+            "text": "海光、寒武纪、拓维、润和、软通同步公告"
+          }
+        ]
+      },
+      {
+        "title": "资本与人才",
+        "items": [
+          {
+            "text": "首次传出融资 · 估值超 100 亿美元"
+          },
+          {
+            "text": "10 名核心骨干被巨头挖角 · AI 岗位需求 12 倍增"
+          }
+        ]
+      },
+      {
+        "title": "对照面 · 闭源阵营裂缝",
+        "items": [
+          {
+            "text": "黄仁勋表态担忧 V4 国产芯片路径"
+          },
+          {
+            "text": "Anthropic 承认 Claude Code 性能下滑"
+          },
+          {
+            "text": "Conway 常驻智能体代码外泄"
+          }
+        ]
+      }
+    ]
+  }
+}
