@@ -1,121 +1,81 @@
-# SupSub 金融信息卡片工作台
+# 金融信息卡片自动化工作流
 
-小红书 / 朋友圈 3:4 竖版（720×960）金融信息卡片生产流水线：
-**JSON 数据 → Jinja2 模板 → HTML → PNG**。
+一套面向财经博主、内容创作者的 **小红书 / 朋友圈金融卡片自动产线**：
+每天早上 09:00 自动从信源抓取当日信号、整理为话题、按风格渲染成 5 张可直接发布的竖版卡片（720×960，3:4）。
 
-## 目录结构
+整套流程不需要你动手设计或排版，**当天醒来就能拿到当日 3 期成品**。
+你可以拿这套流水线复刻到自己的内容方向（财经、科技、行业研究皆可），换信源、换品牌、换风格，工作流不变。
 
-```
-xsh-info-card/
-├── README.md           本文件
-├── info.json           各风格 issue_no 计数器（入 git，保证计数全局一致）
-│                       形如 {"research":3,"wsj":5,"bloomberg":5,"minimal":6}
-├── topics/             话题 JSON 输入（按 tools/schema.md 撰写）
-│   └── topic_YYYYMMDD_<slug>.json
-├── tools/              生成工具链
-│   ├── README.md       工具用法
-│   ├── schema.md       话题 JSON 字段说明
-│   ├── scripts/
-│   │   ├── build_cards.py   主生成器：JSON → 5 张 PNG（+ keyword.json + zip）
-│   │   └── render_png.py    HTML → PNG（Playwright，被 build_cards.py 调用）
-│   ├── templates/      4 套风格模板
-│   │   ├── research/   机构研报风
-│   │   ├── wsj/        华尔街日报风
-│   │   ├── bloomberg/  彭博终端风
-│   │   └── minimal/    财报极简
-│   └── assets/
-│       └── logo.png    SupSub logo（注入为 data URI）
-└── output/             生成产物
-    └── YYYY-MM-DD/
-        ├── <slug>/             每个话题一个目录
-        │   ├── 1-封面.png
-        │   ├── 2-摘要.png
-        │   ├── 3-要点.png
-        │   ├── 4-金句.png
-        │   ├── 5-延伸阅读.png
-        │   └── keyword.json    话题关键词（5-10 条）
-        └── <slug>.zip          5 张 PNG + keyword.json 的同名打包
-```
+## 一期话题 = 5 张卡片
 
-## 日常工作流
+| 顺序 | 卡片 | 用途 |
+|---|---|---|
+| 1 | **封面** | 大标题 + 导语 + 三栏数据（如 BRENT $100 / +14% / $600/吨） |
+| 2 | **摘要** | 完整事件梳理 + 编者按 |
+| 3 | **要点** | 3-5 条结构化速读 |
+| 4 | **金句** | 一句话点睛 + 署名 |
+| 5 | **延伸阅读** | 分组导引到进一步内容 |
 
-```bash
-# 1. 准备 topic JSON（按 tools/schema.md 生成），命名建议：
-#    topics/topic_YYYYMMDD_<slug>.json
-
-# 2. 生成 5 张 PNG（自动按 ISO 周轮换风格）
-python3 tools/scripts/build_cards.py topics/topic_xxx.json
-
-# 3. 产物落到 output/YYYY-MM-DD/<slug>/，同时打包同级 <slug>.zip
-
-# 常用变体
-python3 tools/scripts/build_cards.py topics/topic_xxx.json --style wsj          # 指定风格
-python3 tools/scripts/build_cards.py topics/topic_xxx.json --style random       # 随机挑一
-python3 tools/scripts/build_cards.py topics/topic_xxx.json --keep-html          # 保留中间 HTML
-python3 tools/scripts/build_cards.py topics/topic_xxx.json -o output/custom/    # 自定义输出
-python3 tools/scripts/build_cards.py --list-styles topics/topic_xxx.json        # 查看风格清单
-```
-
-依赖一次性安装：
-
-```bash
-pip install Jinja2 playwright --break-system-packages
-playwright install chromium
-```
+每张卡固定位置嵌入了 Logo / 期号 / 页脚链接 / 合规话术 / 尾页 slogan，发布出去就是统一的品牌语言；这些品牌位都是模板里的占位，可以替换成你自己的账号信息。
 
 ## 卡片风格
 
-四套风格共享一份 JSON schema，无需为风格改数据；按 ISO 周数 `% 4` 自动轮换。
-`{em}` 高亮在每套风格里映射到不同重音色（陈年金 / 报纸红 / 磷光绿 / 熔金）。
+四套风格共享一份内容数据，按周自动轮换；也支持指定或随机。
+关键词高亮在每套风格里映射到不同重音色（陈年金 / 报纸红 / 磷光绿 / 熔金）。
 
 | `research` 机构研报风 | `wsj` 华尔街日报风 |
 |---|---|
 | <img src="output/2026-04-27/半导体上行-算力瓶颈/1-封面.png" width="320"> | <img src="output/2026-04-26/deepseek-v4-国产闭环/1-封面.png" width="320"> |
+| 深蓝报眉 + 陈年金重音，Foreign Affairs × HBR 学术月刊质感 | 1890s 活版铅印大报，drop cap 首字下沉，纸黄底 + 报纸红 |
 | **`bloomberg` 彭博终端风** | **`minimal` 财报极简** |
 | <img src="output/2026-04-27/deepseek-v4-价格战-国产闭环/1-封面.png" width="320"> | <img src="output/2026-04-29/AI存储缺口-量价齐升/1-封面.png" width="320"> |
+| 黑底磷光绿 + 琥珀色，CRT 扫描线 + ASCII 盒线，终端任务控制台 | Muji × Kinfolk × NYT Weekend，大量留白 + 0.5px 发丝线 + 熔金重音 |
 
-显式指定 `--style <key>` 不轮换；`--style random` 在写 `info.json` 之前随机挑选，保证计数不串。
+## 每日自动产出
 
-## issue_no 机制（info.json）
+每天 **09:00 Asia/Shanghai** 跑一次，整套流水线三步：
 
-- `info.json` 每个风格各自维护一个计数器，形如 `{"research":3,"wsj":5,"bloomberg":5,"minimal":6}`
-- **不按日期计数**：每出一张卡累加 1，跨天持续
-- 生成前先读取当前值、写回 +1，作为本次使用的 `issue_no`（覆盖 topic JSON 里的原值，三位零填充如 `"001"`）
-- 生成失败会回滚到原值且不留代码提交，不会跳号
-- `info.json` **必须提交到 git**，下次生成才不会断档
+1. 抓取当日信源 / 关注点
+2. 挑 3 条主线，每条整理为一份话题数据
+3. 用当周风格渲染 3 期 × 5 张 = **15 张 PNG**
 
-## 固定品牌元素（模板内已内置）
+### 两种触发方式（用哪个看场景）
 
-- 页眉：SupSub Logo + 期号 / 日期 / 主题 tag
-- 页脚上方：`来自关注点 · SupSub · {{ focus_name }} · #{{ issue_no }}`（浅灰小字）
-- 页脚：`supsub.ai` + 合规话术 + 页码（如 `1/5`）
-- 尾页 CTA：Logo + slogan「把注意力留给有价值的内容」+ supsub.ai
+| 入口 | 适用场景 | 是否自动入库 |
+|---|---|---|
+| **`/daily-cards`** （[`.claude/skills/daily-cards/SKILL.md`](.claude/skills/daily-cards/SKILL.md)） | 本地手动触发，想发布前先审阅内容、风格、配图再决定是否保留 | 否，只生成图片，由你审阅后再决定是否归档 |
+| **`instructions.md`**（[`instructions.md`](instructions.md)） | 早上 09:00 的远程定时任务，目标是醒来直接看到当日成品 | 是，跑成功后自动归档进当日目录，无需人工干预 |
 
-## 模板支持的排版
+两者共用同一份模板、同一份渲染脚本，差别只在「跑完后是否自动归档」。手动试跑选第一种，每天定时跑选第二种。
 
-| 标记 | 渲染结果 |
-|---|---|
-| `{em}关键词{/em}` | 各风格主重音色加粗 `<em>`（金 / 红 / 磷光绿 / 熔金） |
-| `<strong>` | 深色加粗 |
-| `<ul><li>` / `<ol><li>` | 自动格式化的无序 / 有序列表 |
-| `<br>` | 换行 |
+成品落在 `output/YYYY-MM-DD/<话题>/` 下，每期一个目录：
 
-正文字段统一关闭 Jinja2 自动转义，标记原样输出。
+```
+output/2026-04-29/
+├── AI存储缺口-量价齐升/
+│   ├── 1-封面.png
+│   ├── 2-摘要.png
+│   ├── 3-要点.png
+│   ├── 4-金句.png
+│   ├── 5-延伸阅读.png
+│   └── keyword.json        话题关键词（小红书发布时贴标签用）
+├── AI存储缺口-量价齐升.zip   上面 6 个文件的同名打包，方便一键转发
+├── 阿联酋退欧佩克-油价冲击/
+├── 阿联酋退欧佩克-油价冲击.zip
+└── ...
+```
 
-## 关键校验规则
+发布时直接打开当天目录、挑一期、5 张图按顺序排好上传即可；也可以用同名 zip 整包转发给运营。
 
-- `keywords`：顶层数组 5-10 条，写入 `keyword.json` 与 zip
-- `takeaways.items`：3-5 条，少于 3 或多于 5 直接报错；4-5 条时模板自动收紧字号与间距
-- `meta.focus_name`：缺省会 warn，但不影响生成（页脚不再展示关注点标签）
-- 缺哪张卡的字段，对应 PNG 自动跳过
+## 期号
 
-详细字段约定见 [`tools/schema.md`](tools/schema.md)。
+每张卡右上角的 `№ 005` 是该风格的累计期号（不是日历日期）。
+四套风格各自独立计数，跨天连续累加，方便追踪「这是 minimal 风格的第几期」。
 
-## 每日自动化
+## 想复刻这套流程
 
-每天 09:00 Asia/Shanghai，Claude Code remote routine 会：
-
-1. 从 SupSub 拉当日关注点 markdown
-2. 挑 3 条主线生成 3 个 topic JSON
-3. 当周风格渲染每个话题 5 张 PNG + keyword.json + zip
-4. 直接 commit 到 `main`
+- 话题数据字段定义见 [`tools/schema.md`](tools/schema.md)
+- 渲染脚本入口：`tools/scripts/build_cards.py <topic.json> --style random`
+- 模板放在 `tools/templates/<风格名>/`，每套风格 9 个文件（CSS + 页眉/页脚 + 5 张卡），可以照样新增第五、第六种风格
+- 信源、品牌位、CTA、slogan、合规话术都是模板里的占位字段，替换后即可绑定到自己的账号
+- 自动化 prompt 改写参考 [`instructions.md`](instructions.md)（无人值守版）和 [`.claude/skills/daily-cards/SKILL.md`](.claude/skills/daily-cards/SKILL.md)（本地交互版）
