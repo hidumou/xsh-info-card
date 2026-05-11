@@ -25,7 +25,7 @@
 
   每话题 5 张。3 话题 = 15 张/天。
 
-  第 1 步 · 拉取今日信号源
+  第 1 步 · 拉取今日信号源（以下为临时链接随时会失效，可替换任意数据源）
 
 https://supsub.net/feed/560cf9aa-7e11-4315-876f-8b4cdd5f1607/focuses/711/markdown
   公开、免认证。用 curl 或 WebFetch 拉 markdown 全文。

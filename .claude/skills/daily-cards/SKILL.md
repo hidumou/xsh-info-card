@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 ## 6 步流程
 
-### 第 1 步 · 拉今日信号源
+### 第 1 步 · 拉今日信号源（以下为临时链接可能会失效，可替换任意数据源）
 
 公开免认证，用 curl 或 WebFetch：
 
